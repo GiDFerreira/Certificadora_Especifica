@@ -77,6 +77,10 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
   --darker-pink: #F14F6D;
+  --lighter-blue: #F0F2F8;
+  --blue: #C2D3E5;
+  --darker-blue: #6C8BAF;
+  --darker-gray: #6B6B6B;
 }
 
 @layer base {

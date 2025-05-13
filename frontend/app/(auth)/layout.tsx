@@ -1,14 +1,8 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import "../globals.css";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import Sidebar from "@/components/Base/Sidebar/Sidebar";
 
-export const metadata: Metadata = {
-  title: "SerenaMente",
-  description: "Seu app de bem estar",
-};
-
-export default function RootLayout({
+export default function AuthLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -17,7 +11,13 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body>
-        {children}
+        <SidebarProvider>
+          <Sidebar />
+          <main>
+            <SidebarTrigger />
+            {children}
+          </main>
+        </SidebarProvider>
       </body>
     </html>
   );
