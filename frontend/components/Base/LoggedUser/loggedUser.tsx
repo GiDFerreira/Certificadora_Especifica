@@ -1,0 +1,26 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+interface LoggedUserComponent {
+    image: string
+    userName: string
+    userEmail: string
+}
+
+const LoggedUserComponent = ({ image, userName, userEmail }: LoggedUserComponent) => {
+    const initial = userName?.charAt(0).toUpperCase() || '';
+
+    return (
+        <div className="flex gap-1 justify-center items-center">
+            <Avatar>
+                <AvatarImage src={image} />
+                <AvatarFallback>{initial}</AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col">
+                <p className="text-[20px] font-semibold leading-5.5 text-[var(--darker-gray)]">{userName}</p>
+                <small className="text-sm font-regular text-[var(--darker-gray)] leading-3.5">{userEmail}</small>
+            </div>
+        </div>
+    )
+}
+
+export default LoggedUserComponent;
