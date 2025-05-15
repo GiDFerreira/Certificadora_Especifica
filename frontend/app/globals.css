@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -81,6 +82,9 @@
   --blue: #C2D3E5;
   --darker-blue: #6C8BAF;
   --darker-gray: #6B6B6B;
+  --gray: #71717A;
+  --light-green: #D3E2DC;
+  --black: #2E2E2E;
 }
 
 @layer base {
