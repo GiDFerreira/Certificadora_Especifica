@@ -13,7 +13,7 @@ export default function MinhasMetas() {
         abrir
       </div>
         {completedGoals &&
-          <CompletedGoals metas={fakeGoals.goals} onClose={() => setCompletedGoals(false)} />
+          <CompletedGoals goals={fakeGoals.goals} onClose={() => setCompletedGoals(false)} />
         }
     </div>
   );
