@@ -3,13 +3,14 @@ import Check from "@/public/concluida.png";
 import Image from "next/image";
 import { formatBrazilianDate } from "@/utils/dateUtils";
 import Tooltip from "@/components/Tooltip/Tooltip";
+import { Goal } from "@/interfaces/Goal";
 
 interface CompletedGoalsComponent {
-    metas: Goal[]
+    goals: Goal[]
     onClose: (e: React.MouseEvent<HTMLDivElement>) => void
 }
 
-const CompletedGoalsComponent = ({ metas, onClose }: CompletedGoalsComponent) => {
+const CompletedGoalsComponent = ({ goals, onClose }: CompletedGoalsComponent) => {
 
     const trunkText = (text: string): string => {
         const limit = 80;
@@ -23,15 +24,15 @@ const CompletedGoalsComponent = ({ metas, onClose }: CompletedGoalsComponent) =>
                 <div className="absolute top-2 right-2" onClick={onClose}>
                     <X size={18} />
                 </div>
-                {metas.length > 0 ?
+                {goals ?
                     <h1 className="text-[18px] font-semibold mb-1">As metas que você já concluiu</h1>
                     :
                     <h1 className="text-[18px] font-semibold mb-1">Você ainda não concluiu nenhuma meta</h1>
                 }
                 {
-                    metas.length > 0 ?
+                    goals ?
                     <div className="text-[14px] text-[var(--gray)]">
-                        <p>Você já concluiu <span className="text-[var(--darker-pink)]">{metas.length} metas</span> até aqui.</p>
+                        <p>Você já concluiu <span className="text-[var(--darker-pink)]">{goals.length} metas</span> até aqui.</p>
                         <p>Cada uma delas é parte da sua história - pequenos passos que mostram o quanto você tem se cuidado.</p>
                         <p>E isso vale muito.</p>
                     </div>
@@ -42,15 +43,15 @@ const CompletedGoalsComponent = ({ metas, onClose }: CompletedGoalsComponent) =>
                 }
             </div>
             <div className="self-end flex flex-col gap-6 overflow-auto">
-                {metas.map((meta, index) => (
+                {goals && goals.map((goal, index) => (
                     <div key={index}>
                         <div className="flex gap-4 items-start w-[290px] bg-[var(--light-green)]/50 text-[14px] rounded-[8px] p-3">
                             <Image src={Check} className="w-4 h-4 mt-[2px]" alt="checked icon" />
-                            <Tooltip content={meta.title}>
-                                <p className="text-left">{trunkText(meta.title)}</p>
+                            <Tooltip content={goal.title}>
+                                <p className="text-left">{trunkText(goal.title)}</p>
                             </Tooltip>
                         </div>
-                        <p className="text-end text-[11px] text-[var(--black)]">Concluída em: {formatBrazilianDate(meta.completedDate)}</p>
+                        <p className="text-end text-[11px] text-[var(--black)]">Concluída em: {formatBrazilianDate(goal.completedDate ? goal.completedDate : '')}</p>
                     </div>
                 ))}
             </div>
