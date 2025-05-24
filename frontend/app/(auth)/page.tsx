@@ -1,4 +1,4 @@
-import Card from "@/components/Base/Card/Card";
+import Card from "@/components/Card/Card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 

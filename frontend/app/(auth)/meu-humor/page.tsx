@@ -1,9 +1,15 @@
-import Card from "@/components/Base/Card/Card";
+"use client"
+
+import Card from "@/components/Card/Card";
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
 import Image from "next/image";
+import ButtonsheetComponent from "@/components/Buttonsheet/Buttonsheet";
+import { useState } from "react";
 
 export default function MeuHumor() {
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+
   return (
     <>
       <div className="ml-22">
@@ -46,7 +52,8 @@ export default function MeuHumor() {
           <Button className="">REGISTRAR</Button>
         </Card>
       </div>
-      
+      <Button onClick={() => setIsDialogOpen(true)}>Criar</Button>
+      <ButtonsheetComponent open={isDialogOpen} onOpenChange={setIsDialogOpen} action="Create" model="Goal"></ButtonsheetComponent>
     </>
   );
 }

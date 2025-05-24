@@ -1,6 +1,6 @@
 import "../globals.css";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import Sidebar from "@/components/Base/Sidebar/Sidebar";
+import Sidebar from "@/components/Sidebar/Sidebar";
 
 export default function AuthLayout({
   children,
