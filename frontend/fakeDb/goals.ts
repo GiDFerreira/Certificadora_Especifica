@@ -68,3 +68,32 @@ export const fakeGoals = {
     }
   ]
 }
+
+export const fakeMoods = {
+  moods: [
+    {
+      id: "1",
+      mood: 1,
+      note: "Me alimentei de forma saudável hoje.",
+      date: "2024-03-15T10:30:00.000Z",
+    },
+    {
+      id: "2",
+      mood: 1,
+      note: "Me alimentei de forma saudável hoje.",
+      date: "2024-03-15T10:30:00.000Z",
+    },
+    {
+      id: "3",
+      mood: 1,
+      note: "Me alimentei de forma saudável hoje.",
+      date: "2024-03-15T10:30:00.000Z",
+    },
+    {
+      id: "4",
+      mood: 1,
+      note: "Me alimentei de forma saudável hoje.",
+      date: "2024-03-15T10:30:00.000Z",
+    }
+  ]
+}

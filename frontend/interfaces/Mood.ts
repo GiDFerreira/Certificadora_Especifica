@@ -3,5 +3,5 @@ export interface Mood {
     mood: number
     note?: string
     date: string
-    selected: boolean
+    selected?: boolean
 }
