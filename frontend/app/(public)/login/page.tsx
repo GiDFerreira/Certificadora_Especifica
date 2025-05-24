@@ -1,8 +1,8 @@
 "use client";
 
-import Button from "@/components/Base/Button/Button";
-import Card from "@/components/Base/Card/Card";
-import Input from "@/components/Base/Input/Input";
+import Button from "@/components/Button/Button";
+import Card from "@/components/Card/Card";
+import Input from "@/components/Input/Input";
 import Image from "next/image";
 import LogoImage from "@/public/Logo.png";
 import { useState } from "react";

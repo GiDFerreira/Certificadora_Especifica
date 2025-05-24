@@ -1,7 +1,10 @@
-import Card from "@/components/Base/Card/Card";
+"use client"
+
+import Card from "@/components/Card/Card";
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function MeuHumor() {
   return (
@@ -46,7 +49,6 @@ export default function MeuHumor() {
           <Button className="">REGISTRAR</Button>
         </Card>
       </div>
-      
     </>
   );
 }

@@ -1,5 +1,5 @@
 import { MoreHorizontal } from "lucide-react";
-import Button from "../Base/Button/Button";
+import Button from "../Button/Button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Action } from "@/interfaces/Action";
 
