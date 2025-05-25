@@ -13,7 +13,7 @@ export default function MeuHumor() {
         <Avatar className="">
           <img src="/firulagames.jpg" alt="firulagames" />
         </Avatar>
-        <span className="font-serif text-sm">@firulaGames</span>
+        <span className="font-serif text-sm">@Gato</span>
       </div>
       <div className="flex flex-col gap-6 px-8 m-4">
         <div className="w-full flex justify-center"><span className="justify-between text-rose-400">Como você define seu dia hoje?</span></div>
