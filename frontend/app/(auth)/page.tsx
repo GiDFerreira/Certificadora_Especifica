@@ -1,5 +1,6 @@
 import Card from "@/components/Base/Card/Card";
 import { Button } from "@/components/ui/button";
+import SidebarComponent from "@/components/Base/Sidebar/Sidebar";
 import Image from "next/image";
 
 
@@ -10,7 +11,7 @@ export default function Home() {
         <Card  className="bg-[var(--darker-pink)]/50 w-full flex justify-center py-4 px-4 ml-7 " >
           <div className="flex gap-4 items-center">
             <div className="text-center mr-6">
-            <Image src="/feliz.svg" alt="feliz" width={100} height={100} className="hover:animate-bounce"/>
+            <Image src="/feliz.svg" alt="feliz" width={100} height={100} className="hover:scale-110 hover:rotate-3 transition-all duration-300"/>
               <span>Feliz</span>
             </div>
             <Card className="w-full py-6 px-6 ml-7 flex flex-col items-center text-center justify-between gap-4">
