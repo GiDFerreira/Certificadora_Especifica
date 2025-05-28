@@ -199,3 +199,9 @@ $font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Appl
   opacity: 0;
   transform: translateX(-10px);
 }
+
+@media (max-width: 800px) {
+  #bot-container {
+    width: 70vw;
+  }
+}
