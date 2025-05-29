@@ -5,11 +5,6 @@ import { createBot } from "botui"
 import { BotUI, BotUIMessageList, BotUIAction } from "@botui/react"
 import '../../styles/botui-custom-theme.scss'
 
-function autoLink(text: string) {
-  const urlRegex = /(https?:\/\/[^\s]+)/g
-  return text.replace(urlRegex, '$1')  // Ou apenas destaque visualmente, se quiser.
-}
-
 
 const MyBot = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -192,10 +187,11 @@ const MyBot = () => {
 
         } else {
           myBot.message.add({
-            text: "Desculpe, não consegui entender muito bem ou talvez eu ainda não tenha sido programada para falar sobre isso. 😅 Mas estou aqui para ajudar no que puder! Quer tentar perguntar de outro jeito ou falar sobre outra coisa? 💬"
+            text: "Desculpe, não consegui entender muito bem ou talvez eu ainda não tenha sido programada para falar sobre isso. 😅 Mas estou aqui para ajudar no que puder! Quer tentar perguntar de outro jeito ou falar sobre outra coisa (seus sentimentos, por exemplo)? 💬"
           })
-          askAndRespond()
         }
+
+        askAndRespond()
       })
     }
 
