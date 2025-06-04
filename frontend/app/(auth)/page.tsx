@@ -1,3 +1,4 @@
+
 import Card from "@/components/Base/Card/Card";
 import Checkbox from "@/components/Base/Checkbox/Checkbox";
 import Image from "next/image";

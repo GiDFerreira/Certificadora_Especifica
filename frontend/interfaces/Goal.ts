@@ -1,5 +1,6 @@
-interface Goal {
+export interface Goal {
     id: string
     title: string
-    completedDate: string
+    deadline: string
+    completedDate?: string
 }
