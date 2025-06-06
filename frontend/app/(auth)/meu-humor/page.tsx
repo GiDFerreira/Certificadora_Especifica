@@ -1,15 +1,48 @@
-"use client"
+"use client";
 
 import Card from "@/components/Card/Card";
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
 import Image from "next/image";
 import { useState } from "react";
+import GridComponent from "@/components/Grid/Grid";
+import { Mood } from "@/interfaces/Mood";
+import axiosService from "@/services/AxiosService";
+import { useEffect } from "react";
+
+export const getMoods = async(): Promise<Mood[]> => {
+  const response = await axiosService.get<Mood[]>("/api/moods");
+  return response.data;
+}
 
 export default function MeuHumor() {
+  const [moods, setMoods] = useState<Mood[]>([]);
+
+  useEffect(() => {
+    const fetchMoods = async () => {
+    try {
+      const moodsFromBackend = await getMoods(); 
+
+      const moodsWithSelected: Mood[] = moodsFromBackend.map(mood => ({
+        ...mood,
+        selected: false  
+      }));
+
+      setMoods(moodsWithSelected);  
+    } catch (err) {
+      console.error("Erro ao buscar moods:", err);
+    }
+  };
+
+
+    fetchMoods();
+  }, []);
+
+
+
   return (
     <>
-      <div className="ml-22">
+    <div className="ml-22">
         <h1 className="font-bold">Meu humor</h1>
       </div>
       <div className="flex justify-end">
@@ -49,6 +82,12 @@ export default function MeuHumor() {
           <Button className="">REGISTRAR</Button>
         </Card>
       </div>
+
+      <div className="p-6">
+        <GridComponent data={moods} type="Mood" />
+      </div>
+      
     </>
+    
   );
 }
