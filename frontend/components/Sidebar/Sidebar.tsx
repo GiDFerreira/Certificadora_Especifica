@@ -22,7 +22,7 @@ const SidebarComponent = () => {
                         
                         <Link href="/meu-humor">
                             <Button className="bg-transparent text-[var(--darker-gray)] border-none shadow-none hover:bg-[var(--blue)] focus:bg-[var(--darker-blue)] focus:text-white">
-                                <div className="ml-6 flex gap-4 w-full items-center justify-start">
+                                <div className="ml-6 flex gap-4 w-full items-center justify-start w-full">
                                     <Smile />Meu Humor
                                 </div>
                             </Button>
