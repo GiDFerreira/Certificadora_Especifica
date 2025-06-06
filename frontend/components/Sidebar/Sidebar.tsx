@@ -3,7 +3,6 @@ import Image from "next/image";
 import LogoImage from "@/public/Logo.png";
 import Button from "../Button/Button";
 import { ChartNoAxesCombined, House, Smile, TvMinimalPlay } from "lucide-react";
-import Link from "next/link";
 
 const SidebarComponent = () => {
     return (
@@ -20,13 +19,11 @@ const SidebarComponent = () => {
                             </div>
                         </Button>
                         
-                        <Link href="/meu-humor">
-                            <Button className="bg-transparent text-[var(--darker-gray)] border-none shadow-none hover:bg-[var(--blue)] focus:bg-[var(--darker-blue)] focus:text-white">
-                                <div className="ml-6 flex gap-4 w-full items-center justify-start w-full">
-                                    <Smile />Meu Humor
-                                </div>
-                            </Button>
-                        </Link>
+                        <Button className="bg-transparent text-[var(--darker-gray)] border-none shadow-none hover:bg-[var(--blue)] focus:bg-[var(--darker-blue)] focus:text-white">
+                            <div className="ml-6 flex gap-4 w-full items-center justify-start">
+                                <Smile />Meu Humor
+                            </div>
+                        </Button>
                         
                         <Button className="bg-transparent text-[var(--darker-gray)] border-none shadow-none hover:bg-[var(--blue)] focus:bg-[var(--darker-blue)] focus:text-white">
                             <div className="ml-6 flex gap-4 w-full items-center justify-start">
