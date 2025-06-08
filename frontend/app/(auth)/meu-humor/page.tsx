@@ -10,8 +10,18 @@ import { Mood } from "@/interfaces/Mood";
 import axiosService from "@/services/AxiosService";
 import { useEffect } from "react";
 import MoodChart from "@/components/MoodChart/MoodChart";
+import { useRouter } from "next/navigation";
+import { useAuthContext } from "@/context/AuthContext";
 
-export const getMoods = async(): Promise<Mood[]> => {
+export default function MeuHumor() {
+  const { userAuth } = useAuthContext();
+  const router = useRouter();
+    
+  if(userAuth == null) {
+    router.push("/login");
+  }
+  
+  export const getMoods = async(): Promise<Mood[]> => {
   const response = await axiosService.get<Mood[]>("/api/moods");
   return response.data;
 }
@@ -42,6 +52,8 @@ export default function MeuHumor() {
 
   return (
     <>
+    {userAuth && (
+      <>
     <div className="ml-22">
         <h1 className="font-bold">Meu humor</h1>
       </div>
@@ -90,8 +102,7 @@ export default function MeuHumor() {
       <div className="ml-8">
         <MoodChart data={lastMoods}></MoodChart>
       </div>
-      
     </>
-    
+    )}
   );
 }

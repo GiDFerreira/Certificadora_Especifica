@@ -9,16 +9,12 @@ export default function AuthLayout({
 }>) {
 
   return (
-    <html lang="pt-br">
-      <body>
-        <SidebarProvider>
-          <Sidebar />
-          <main>
-            <SidebarTrigger />
-            {children}
-          </main>
-        </SidebarProvider>
-      </body>
-    </html>
+    <SidebarProvider>
+      <Sidebar />
+      <main>
+        <SidebarTrigger />
+        {children}
+      </main>
+    </SidebarProvider>
   );
 }
