@@ -9,6 +9,7 @@ import GridComponent from "@/components/Grid/Grid";
 import { Mood } from "@/interfaces/Mood";
 import axiosService from "@/services/AxiosService";
 import { useEffect } from "react";
+import MoodChart from "@/components/MoodChart/MoodChart";
 
 export const getMoods = async(): Promise<Mood[]> => {
   const response = await axiosService.get<Mood[]>("/api/moods");
@@ -34,11 +35,10 @@ export default function MeuHumor() {
     }
   };
 
-
     fetchMoods();
   }, []);
 
-
+  const lastMoods = moods.length >= 30 ? moods.slice(-30) : moods.length >= 15 ? moods.slice(-15) : moods.length >= 7 ? moods.slice(-7) : [];
 
   return (
     <>
@@ -85,6 +85,10 @@ export default function MeuHumor() {
 
       <div className="p-6">
         <GridComponent data={moods} type="Mood" />
+      </div>
+
+      <div className="ml-8">
+        <MoodChart data={lastMoods}></MoodChart>
       </div>
       
     </>
