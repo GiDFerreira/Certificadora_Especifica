@@ -1,7 +1,23 @@
+"use client"
+
+import { useAuthContext } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
+
 export default function Conteudos() {
-  return (
-    <div>
+  const { userAuth } = useAuthContext();
+  const router = useRouter();
       
-    </div>
+  if(userAuth == null) {
+    router.push("/login");
+  }
+
+  return (
+    <>
+      {userAuth && (
+        <div>
+        
+        </div>
+      )}
+    </>
   );
 }
