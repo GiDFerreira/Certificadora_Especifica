@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Card from "@/components/Card/Card";
 import Checkbox from "@/components/Base/Checkbox/Checkbox";
-import Image from "next/image";
 import { Avatar } from "@/components/ui/avatar";
 import Button from "@/components/Button/Button";
 
@@ -20,6 +19,7 @@ export default function Home() {
   return (
     <>
       {userAuth && (
+        <>
       <div className="flex justify-between items-center px-6 py-2">
         <h1 className="font-bold text-3xl">Início</h1>
         
@@ -90,5 +90,6 @@ export default function Home() {
       </div>
     </>
     )}
+    </>
   );
 }
