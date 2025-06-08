@@ -2,7 +2,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 
 interface CheckboxComponentProps {
-    label: string;
+    label?: string;
     description?: string;
     checked?: boolean;
     onCheckedChange?: (checked: boolean) => void;

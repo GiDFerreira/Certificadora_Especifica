@@ -1,8 +1,7 @@
-import Card from "@/components/Base/Card/Card";
-import Checkbox from "@/components/Base/Checkbox/Checkbox";
+import Card from "@/components/Card/Card";
 import Image from "next/image";
 import { Avatar } from "@/components/ui/avatar";
-import Button from "@/components/Base/Button/Button";
+import Button from "@/components/Button/Button";
 
 
 export default function Empty() {

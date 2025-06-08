@@ -4,7 +4,7 @@ import { useAuthContext } from "@/context/AuthContext";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Card from "@/components/Card/Card";
-import Checkbox from "@/components/Base/Checkbox/Checkbox";
+import Checkbox from "@/components/Checkbox/Checkbox";
 import { Avatar } from "@/components/ui/avatar";
 import Button from "@/components/Button/Button";
 
@@ -56,7 +56,7 @@ export default function Home() {
         <div className="flex flex-col space-y-4 p-6">
           <p className="ml-8 py-24 font-bold">Não deixe seu bem estar para depois! Cuide de suas metas:</p>
           <div className="flex items-center gap-2">
-            <Checkbox id="meta 1"/>
+            <Checkbox />
               <div className="flex w-full items-center justify-between rounded-md bg-green-100 p-4 shadow-sm">
                 <div className="flex items-center gap-4">
                   <span className="text-xl">→</span>
@@ -66,7 +66,7 @@ export default function Home() {
               </div>
           </div>
           <div className="flex items-center gap-2">
-                <Checkbox id="meta2" />
+                <Checkbox />
                 <div className="flex w-full items-center justify-between rounded-md bg-green-100 p-4 shadow-sm">
                   <div className="flex items-center gap-4">
                     <span className="text-xl">→</span>
@@ -77,7 +77,7 @@ export default function Home() {
               </div>
 
               <div className="flex items-center gap-2">
-                <Checkbox id="meta3" />
+                <Checkbox />
                 <div className="flex w-full items-center justify-between rounded-md bg-green-100 p-4 shadow-sm">
                   <div className="flex items-center gap-4">
                     <span className="text-xl">→</span>
