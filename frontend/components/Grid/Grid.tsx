@@ -87,7 +87,7 @@ const GridComponent = ({ data, type }: GridComponentProps) => {
                     header: "Motivo",
                 },
                 {
-                    accessorKey: "date",
+                    accessorKey: "createdAt",
                     header: "Data",
                 },
         

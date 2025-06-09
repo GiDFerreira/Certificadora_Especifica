@@ -1,34 +1,38 @@
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
-"use client";
-
-import * as React from "react";
-import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
-import { CheckIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
-
-interface CheckboxComponentProps extends React.ComponentProps<typeof CheckboxPrimitive.Root> {
-  id: string;
-  checked?: boolean;
-  onCheckedChange?: (checked: boolean) => void;
-}
-
-const CheckboxComponent = ({ id, checked, onCheckedChange, className, ...props }: CheckboxComponentProps) => {
-  return (
-    <CheckboxPrimitive.Root
-      id={id}
-      checked={checked}
-      onCheckedChange={onCheckedChange}
-      className={cn(
-        "size-[20px] border border-gray-300 rounded-[4px] flex items-center justify-center transition-colors data-[state=checked]:bg-black data-[state=checked]:border-black focus:outline-none",
-        className
-      )}
-      {...props}
-    >
-      <CheckboxPrimitive.Indicator>
-        <CheckIcon className="w-[14px] h-[14px] text-white" />
-      </CheckboxPrimitive.Indicator>
-    </CheckboxPrimitive.Root>
-  );
+interface CheckboxComponentProps {
+    label?: string;
+    description?: string;
+    checked?: boolean;
+    onCheckedChange?: (checked: boolean) => void;
+    disabled?: boolean;
+    className?: string;
+  }
+  
+  const CheckboxComponent = ({
+    label,
+    description,
+    checked,
+    onCheckedChange,
+    disabled,
+    className,
+  }: CheckboxComponentProps) => {
+    return (
+      <div className={`flex items-start gap-2 ${className}`}>
+        <Checkbox
+          checked={checked}
+          onCheckedChange={onCheckedChange}
+          disabled={disabled}
+        />
+        <div className="flex flex-col">
+          <Label className="font-medium">{label}</Label>
+          {description && (
+            <span className="text-xs text-muted-foreground">{description}</span>
+          )}
+        </div>
+      </div>
+    );
 };
-
+  
 export default CheckboxComponent;
