@@ -2,15 +2,17 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 
 interface CheckboxComponentProps {
-    label?: string;
-    description?: string;
-    checked?: boolean;
-    onCheckedChange?: (checked: boolean) => void;
-    disabled?: boolean;
-    className?: string;
-  }
+  id?: string;
+  label?: string;
+  description?: string;
+  checked?: boolean;
+  onCheckedChange?: (checked: boolean) => void;
+  disabled?: boolean;
+  className?: string;
+}
   
-  const CheckboxComponent = ({
+const CheckboxComponent = ({
+    id,
     label,
     description,
     checked,
