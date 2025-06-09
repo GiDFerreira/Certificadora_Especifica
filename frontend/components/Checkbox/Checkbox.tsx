@@ -36,4 +36,3 @@ interface CheckboxComponentProps {
 };
   
 export default CheckboxComponent;
-  

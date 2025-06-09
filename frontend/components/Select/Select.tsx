@@ -11,7 +11,7 @@ import {
 
 interface ItemProps {
     title: string
-    value: number
+    value: string | number
 }
 
 interface SelectComponentProps {
