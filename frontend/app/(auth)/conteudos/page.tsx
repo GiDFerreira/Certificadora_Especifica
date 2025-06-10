@@ -2,6 +2,8 @@
 
 import { useAuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
+import LoggedUserComponent from "@/components/LoggedUser/loggedUser";
+import { VideoCarousel } from "@/components/VideoCarousel/VideoCarousel";
 
 export default function Conteudos() {
   const { userAuth } = useAuthContext();
@@ -14,9 +16,29 @@ export default function Conteudos() {
   return (
     <>
       {userAuth && (
-        <div>
-        
+      <div className="w-[70%] md:w-[85%] lg:w-[90%] ml-20">
+        <div className="space-y-6">
+
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-bold">Conteúdos</h1>
+            <LoggedUserComponent image="/firulagames.jpg" userName="Barbie" userEmail="barbie@gmail.com"></LoggedUserComponent>
+          </div>
+
+          <div style={{ backgroundColor: 'rgba(211, 226, 220, 0.53)' }} className="bg-muted p-4 rounded-md text-sm flex items-start gap-2 border border-muted-foreground/10">
+            <span>💡</span>
+            <p> Aqui você encontra conteúdos pensados com carinho para te ajudar a entender mais sobre si e cuidar do que sente. É só o começo — vá no seu tempo, do seu jeito. </p>
+          </div>
+
+          <section>
+            <h2 className="text-lg font-semibold mb-4">Vídeos</h2>
+            <div className="ml-18">
+              <VideoCarousel videoIds={[ "8YG8HABY25w", "Tv0gJTBmVuc", "RpTxcwwGHv4", "1MrQPZuSs7A", "SnUBb-FAlCY"]}></VideoCarousel>
+            </div>
+          </section>
+          
         </div>
+      </div>
+
       )}
     </>
   );
