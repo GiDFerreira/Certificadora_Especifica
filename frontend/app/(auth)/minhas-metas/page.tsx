@@ -8,6 +8,7 @@ import AvatarComponent from "@/components/Avatar/Avatar";
 import InputComponent from "@/components/Input/Input";
 import ButtonComponent from "@/components/Button/Button";
 import CheckboxComponent from "@/components/Checkbox/Checkbox";
+import LoggedUser from "@/components/LoggedUser/loggedUser";
 
 export default function MinhasMetas() {
   const [completedGoals, setCompletedGoals] = useState(false);
@@ -21,13 +22,15 @@ export default function MinhasMetas() {
   };
 
   return (
-    <>
-      <div className="w-full px-8 py-6">        
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold mb-4">Minhas metas</h1>
+    <div className="p-12">
+      <div className="w-full">        
+        <div className="flex justify-between items-center">
+            <h1 className="font-bold text-3xl">Minhas Metas</h1>
+            <div className="flex items-center gap-2">
+              <LoggedUser userName={"Gato"} userEmail={"gato@mail.com"} image={""}/>
+            </div>
         </div>
-        <AvatarComponent image={photo} name="Firula" username="figames" />
-        <div className="flex gap-4 items-center mb-6">
+        <div className="flex gap-4 items-center my-12">
           <InputComponent
             id="searchGoals"
             type="search"
@@ -40,7 +43,7 @@ export default function MinhasMetas() {
       </div>
 
       <ButtonComponent
-        className="bg-gray-700 text-white rounded-full px-4 py-2 text-sm cursor-pointer"
+        className="bg-gray-700 text-white rounded-full text-sm cursor-pointer mb-12"
         onClick={() => setCompletedGoals(true)}
       >
         Visualizar minhas metas concluídas
@@ -52,7 +55,7 @@ export default function MinhasMetas() {
           onClose={() => setCompletedGoals(false)}
         />
       )}
-      <div className="overflow-x-auto rounded-md border border-gray-200 max-w-4xl mx-auto">
+      <div className="overflow-x-auto rounded-md border border-gray-200">
         <table className="w-full text-sm text-left">
           <thead className="bg-gray-100 text-gray-700">
             <tr>
@@ -64,23 +67,23 @@ export default function MinhasMetas() {
           <tbody>
             {goals.map((goal) => (
               <tr className="border border-gray-200" key={goal.id}>
-                <td className="px-6 py-4">
+                <td className="py-4">
                   <CheckboxComponent
                     id={`goal-${goal.id}`}
                     checked={!!goal.completedDate}
                     onCheckedChange={(checked) =>
                       handleToggle(goal.id, !!checked)
                     }
-                    className="ml-3"
+                    className=""
                   />
                 </td>
-                <td className="ml-6">{goal.title}</td>
+                <td className="">{goal.title}</td>
                 <td>{goal.deadline}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-    </>
+    </div>
   );
 }

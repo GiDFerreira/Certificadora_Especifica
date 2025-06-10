@@ -5,13 +5,14 @@ import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
 import Image from "next/image";
 import { useState } from "react";
-import GridComponent from "@/components/Grid/Grid";
+import Grid from "@/components/Grid/Grid";
 import { Mood } from "@/interfaces/Mood";
 import axiosService from "@/services/AxiosService";
 import { useEffect } from "react";
 import MoodChart from "@/components/MoodChart/MoodChart";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/context/AuthContext";
+import LoggedUser from "@/components/LoggedUser/loggedUser";
 
 export default function MeuHumor() {
   const [moods, setMoods] = useState<Mood[]>([]);
@@ -58,25 +59,22 @@ export default function MeuHumor() {
   return (
     <>
       {userAuth && (
-        <>
-          <div className="ml-22">
-            <h1 className="font-bold">Meu humor</h1>
+        <div className="w-full p-12">
+          <div className="flex justify-between items-center">
+            <h1 className="font-bold text-3xl">Meu Humor</h1>
+            <div className="flex items-center gap-2">
+              <LoggedUser userName={"Gato"} userEmail={"gato@mail.com"} image={""}/>
+            </div>
           </div>
-          <div className="flex justify-end">
-            <Avatar className="">
-              <img src="/firulagames.jpg" alt="firulagames" />
-            </Avatar>
-            <span className="font-serif text-sm">@Gato</span>
-          </div>
-          <div className="flex flex-col gap-6 px-8 m-4">
+          <div className="flex flex-col gap-4 mt-12">
             <div className="w-full flex justify-center">
               <span className="justify-between text-rose-400">
                 Como você define seu dia hoje?
               </span>
             </div>
-            <Card className="bg-[var(--darker-pink)]/50 w-full flex justify-center py-4 px-4 ml-7">
-              <div className="flex gap-12 items-center">
-                <div className="text-center ml-8 mr-10 cursor-pointer">
+            <Card className="bg-[var(--darker-pink)]/50 w-full flex justify-center">
+              <div className="flex items-center justify-between px-12">
+                <div className="text-center cursor-pointer">
                   <Image
                     src="/feliz.svg"
                     alt="feliz"
@@ -86,7 +84,7 @@ export default function MeuHumor() {
                   />
                   <span>Feliz</span>
                 </div>
-                <div className="text-center mr-10 cursor-pointer">
+                <div className="text-center cursor-pointer">
                   <Image
                     src="/maisoumenos.svg"
                     alt="maisoumenos"
@@ -96,7 +94,7 @@ export default function MeuHumor() {
                   />
                   <span>Mais ou menos</span>
                 </div>
-                <div className="text-center mr-10 cursor-pointer">
+                <div className="text-center cursor-pointer">
                   <Image
                     src="/indiferente.svg"
                     alt="indiferente"
@@ -106,7 +104,7 @@ export default function MeuHumor() {
                   />
                   <span>Indiferente</span>
                 </div>
-                <div className="text-center mr-10 cursor-pointer">
+                <div className="text-center cursor-pointer">
                   <Image
                     src="/triste.svg"
                     alt="triste"
@@ -116,7 +114,7 @@ export default function MeuHumor() {
                   />
                   <span>Triste</span>
                 </div>
-                <div className="text-center mr-10 cursor-pointer">
+                <div className="text-center cursor-pointer">
                   <Image
                     src="/bravo.svg"
                     alt="bravo"
@@ -128,7 +126,7 @@ export default function MeuHumor() {
                 </div>
               </div>
             </Card>
-            <Card className="w-full py-48 px-6 ml-7 flex flex-col items-center text-center justify-between gap-4">
+            <Card className="w-full flex flex-col items-center text-center justify-between gap-4 mt-12">
               <p className="">
                 Perceber como você se sente é um passo importante no seu
                 cuidado. Comece registrando seu primeiro humor por aqui.
@@ -137,14 +135,14 @@ export default function MeuHumor() {
             </Card>
           </div>
 
-          <div className="p-6">
-            <GridComponent data={moods} type="Mood" />
+          <div className="my-12">
+            <Grid data={moods} type="Mood" />
           </div>
 
-          <div className="ml-8">
+          <div>
             <MoodChart data={lastMoods}></MoodChart>
           </div>
-        </>
+        </div>
       )}
     </>
   );

@@ -11,8 +11,8 @@ export default function AuthLayout({
   return (
     <SidebarProvider>
       <Sidebar />
-      <main>
-        <SidebarTrigger />
+        <SidebarTrigger/>
+      <main className={"min-h-screen w-full "}>
         {children}
       </main>
     </SidebarProvider>
