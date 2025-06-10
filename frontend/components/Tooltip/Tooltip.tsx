@@ -3,9 +3,10 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/
 interface TooltipComponentProps {
     children: React.ReactNode
     content: string
+    className?: string
 }
 
-const TooltipComponent = ({ children, content }: TooltipComponentProps) => {
+const TooltipComponent = ({ children, content, className }: TooltipComponentProps) => {
 
     return (
         <TooltipProvider>
@@ -13,7 +14,7 @@ const TooltipComponent = ({ children, content }: TooltipComponentProps) => {
                 <TooltipTrigger>
                     {children}
                 </TooltipTrigger>
-                <TooltipContent className="w-[300px]">
+                <TooltipContent className={`w-[300px] ${className}`}>
                     {content}
                 </TooltipContent>
             </Tooltip>
