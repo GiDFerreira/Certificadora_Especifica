@@ -4,28 +4,13 @@ import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianG
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from 'react';
 import { Mood } from '@/interfaces/Mood';
-
-type Reaction = 1 | 2 | 3 | 4 | 5;
+import { formatBrazilianDate } from '@/utils/dateUtils';
+import { Reaction } from '@/utils/enums/Reaction';
+import { reactionImages, reactionDescriptions } from '@/utils/constants/reactionsMapping';
 
 interface MoodChartProps {
   data: Mood[]; 
 }
-
-const reactions: Record<Reaction, string> = {
-  1: '/bravo.svg',
-  2: '/triste.svg',
-  3: '/indiferente.svg',
-  4: '/maisoumenos.svg',
-  5: '/feliz.svg',
-};
-
-const reactionDescriptions: Record<Reaction, string> = {
-  1: 'Frustrante',
-  2: 'Triste',
-  3: 'Indiferente',
-  4: 'Mais ou menos',
-  5: 'Feliz',
-};
 
 export default function MoodChart({ data }: MoodChartProps) {
   const [period, setPeriod] = useState('15');
@@ -50,23 +35,22 @@ export default function MoodChart({ data }: MoodChartProps) {
       <ResponsiveContainer width="100%" height={290}>
         <LineChart 
           data={filteredData}
-          margin={{ top: 10, right: 20, left: 20, bottom: 60 }}
+          margin={{ top: 10, right: 10, left: 50, bottom: 60 }}
         >
           <CartesianGrid stroke="#e0e0e0" vertical={false} />
 
           <XAxis
-            dataKey="date"
+            dataKey="createdAt"
             angle={-45}
             tick={{ fontSize: 12, textAnchor: 'end' }}
             interval={0}
             tickMargin={10}
+            tickFormatter={(value) => formatBrazilianDate(value)}
           />
           <YAxis 
             domain={[1, 5]} 
             ticks={[1, 2, 3, 4, 5]} 
-            tick={{ fontSize: 12, textAnchor: 'end' }}
-            tickFormatter={(value) => reactionDescriptions[value as Reaction]} 
-            tickMargin={10} 
+            hide
           />
 
           <Tooltip content={({ active, payload }) => {
@@ -74,8 +58,8 @@ export default function MoodChart({ data }: MoodChartProps) {
               const item = payload[0].payload;
               return (
                 <div className="p-2 bg-white rounded shadow">
-                  <p> {reactionDescriptions[item.reaction as Reaction]}</p>
-                  <p><strong>Motivo:</strong> {item.reason}</p>
+                  <p> {reactionDescriptions[item.mood as Reaction]}</p>
+                  <p><strong>Motivo:</strong> {item.note}</p>
                 </div>
               );
             }
@@ -84,12 +68,13 @@ export default function MoodChart({ data }: MoodChartProps) {
 
           <Line
             type="monotone"
-            dataKey="reaction"
+            dataKey="mood"
             stroke="#548C76"
             strokeWidth={2}
             dot={({ cx, cy, payload }) => {
+              console.log(payload);
               const item = payload as Mood; 
-              const imgSrc = reactions[item.mood as Reaction];
+              const imgSrc = reactionImages[item.mood as Reaction];
 
               return (
                 <svg x={cx - 12} y={cy - 12} width={24} height={24}>
