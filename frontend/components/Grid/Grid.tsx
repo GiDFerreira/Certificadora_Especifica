@@ -23,6 +23,9 @@ import { Goal } from "@/interfaces/Goal"
 import Dropdown from "../Dropdown/Dropdown"
 import { Action } from "@/interfaces/Action"
 import { Archive, Pencil, Trash2 } from "lucide-react"
+import { formatBrazilianDate } from "@/utils/dateUtils"
+import { Reaction } from "@/utils/enums/Reaction"
+import { reactionImages } from "@/utils/constants/reactionsMapping"
 
 interface GridComponentProps {
     data: Mood[] | Goal[]
@@ -78,17 +81,40 @@ const GridComponent = ({ data, type }: GridComponentProps) => {
                     enableSorting: false,
                     enableHiding: false,
                 },
-                {
+               {
                     accessorKey: "mood",
                     header: "Reação",
+                    cell: ({ row }) => {
+                        const moodValue = row.getValue("mood") as 1 | 2 | 3 | 4 | 5;
+                        const imgSrc = reactionImages[moodValue as Reaction];
+
+                        return (
+                        <div>
+                            <img src={imgSrc} alt={`Reação ${moodValue}`} className="w-12 h-12" />
+                        </div>
+                        );
+                    },
                 },
+
                 {
                     accessorKey: "note",
                     header: "Motivo",
+                     cell: ({ row }) => (
+                        <div className="whitespace-normal break-words max-w-xs">
+                            {row.getValue("note")}
+                        </div>
+                    )
                 },
                 {
                     accessorKey: "createdAt",
                     header: "Data",
+                    cell: ({ row }) => {
+                        return (
+                            <div>
+                                {formatBrazilianDate(row.getValue("createdAt"))}
+                            </div>
+                        )
+                    }
                 },
         
                 {
