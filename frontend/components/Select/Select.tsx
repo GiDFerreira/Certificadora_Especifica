@@ -17,13 +17,16 @@ interface ItemProps {
 interface SelectComponentProps {
     placeholder: string
     items: ItemProps[]
+    value?: string | number
+    onChange?: (value:string) => void
+    className?: string
 }
  
-const SelectComponent = ({ placeholder, items }: SelectComponentProps) => {
+const SelectComponent = ({ placeholder, items, value, onChange, className }: SelectComponentProps) => {
   return (
-    <Select>
-        <SelectTrigger className="w-full">
-            <SelectValue placeholder={placeholder} />
+    <Select value={value?.toString()} onValueChange={onChange}>
+        <SelectTrigger className={`w-full ${className}`}>
+            <SelectValue placeholder={placeholder}/>
         </SelectTrigger>
         <SelectContent>
             <SelectGroup>

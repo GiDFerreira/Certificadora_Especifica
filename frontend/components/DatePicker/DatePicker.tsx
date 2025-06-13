@@ -12,9 +12,28 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
- 
-const DatePickerComponent = () => {
-  const [date, setDate] = React.useState<Date>()
+import { useEffect } from "react"
+
+interface DataPickerComponentProps {
+  selected?: Date
+  onSelect?: (date: Date | undefined) => void
+  fromDate?: Date
+  className?: string
+}
+
+const DatePickerComponent = ({ selected, onSelect, fromDate, className }: DataPickerComponentProps) => {
+  const [internalDate, setInternalDate] = React.useState<Date | undefined>(selected)
+
+  useEffect(() => {
+    setInternalDate(selected)
+  }, [selected])
+
+  const handleSelect = (date: Date | undefined) => {
+    setInternalDate(date)
+    if (onSelect) {
+      onSelect(date)
+    }
+  }
  
   return (
     <Popover>
@@ -22,19 +41,20 @@ const DatePickerComponent = () => {
         <Button
           variant={"outline"}
           className={cn(
-            "w-full justify-start text-left font-normal",
-            !date && "text-muted-foreground"
+            `w-full justify-start text-left font-normal ${className}`,
+            !internalDate && "text-muted-foreground"
           )}
         >
           <CalendarIcon />
-          {date ? format(date, "PPP") : <span>Escolha uma data</span>}
+          {internalDate ? format(internalDate, "PPP") : <span>Escolha uma data</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">
         <Calendar
           mode="single"
-          selected={date}
-          onSelect={setDate}
+          selected={internalDate}
+          onSelect={handleSelect}
+          fromDate={fromDate}
           initialFocus
         />
       </PopoverContent>
@@ -42,4 +62,4 @@ const DatePickerComponent = () => {
   )
 }
 
-export default DatePickerComponent
+export default DatePickerComponent;

@@ -12,9 +12,9 @@ export default function AuthLayout({
     <SidebarProvider>
       <Sidebar />
         <SidebarTrigger/>
-      <main className={"min-h-screen w-full "}>
-        {children}
-      </main>
+        <main className={"min-h-screen w-full "}>
+          {children}
+        </main>
     </SidebarProvider>
   );
 }
