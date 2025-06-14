@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useState } from "react";
 import Grid from "@/components/Grid/Grid";
 import { Mood } from "@/interfaces/Mood";
-import axiosService from "@/services/AxiosService";
+import { moodService } from "@/services/moodService";
 import { useEffect } from "react";
 import MoodChart from "@/components/MoodChart/MoodChart";
 import { useRouter } from "next/navigation";
@@ -23,15 +23,14 @@ export default function MeuHumor() {
     router.push("/login");
   }
 
-  const getMoods = async (): Promise<Mood[]> => {
-    const response = await axiosService.get<Mood[]>("/api/moods");
-    return response.data;
+  const handleDeleteMood = (id: string) => {
+    setMoods(prev => prev.filter(mood => mood.id !== id));
   };
 
   useEffect(() => {
     const fetchMoods = async () => {
       try {
-        const moodsFromBackend = await getMoods();
+        const moodsFromBackend = await moodService.getMoods();
 
         const moodsWithSelected: Mood[] = moodsFromBackend.map((mood) => ({
           ...mood,
@@ -136,7 +135,7 @@ export default function MeuHumor() {
           </div>
 
           <div className="my-12">
-            <Grid data={moods} type="Mood" />
+            <Grid data={moods} type="Mood" user={userAuth} onDelete={handleDeleteMood} />
           </div>
 
           <div>

@@ -26,25 +26,61 @@ import { Archive, Pencil, Trash2 } from "lucide-react"
 import { formatBrazilianDate } from "@/utils/dateUtils"
 import { Reaction } from "@/utils/enums/Reaction"
 import { reactionImages } from "@/utils/constants/reactionsMapping"
+import ButtonsheetComponent from "../Buttonsheet/Buttonsheet"
+import { User } from "@firebase/auth"
+import ConfirmAlertComponent from "../ConfirmAlert/ConfirmAlert"
+import { moodService } from "@/services/moodService"
 
 interface GridComponentProps {
     data: Mood[] | Goal[]
     type: 'Mood' | 'Goal'
+    user: User
+    onDelete?: (id: string) => void; 
 }
 
-const GridComponent = ({ data, type }: GridComponentProps) => {
+const GridComponent = ({ data, type, user, onDelete }: GridComponentProps) => {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+
+    const [open, setOpen] = useState(false);
+    const [selectedModel, setSelectedModel] = useState<"Mood" | "Goal" | null>(null);
+    const [action, setAction] = useState<"Create" | "Edit">("Edit");
+    const [selectedMood, setSelectedMood] = useState<Mood | null>(null);
+    const [selectedGoal, setSelectedGoal] = useState<Goal | null>(null);
+    const [itemToDelete, setItemToDelete] = useState<Mood | Goal | null>(null);
+
+
+    const handleDelete = async () => {
+        if (!itemToDelete) return;
+
+        try {
+            if(type == "Mood")
+                await moodService.deleteMood(itemToDelete.id);
+            onDelete?.(itemToDelete.id);
+
+        } catch (error) {
+            console.error("Erro ao excluir mood:", error);
+        } finally {
+            setSelectedMood(null); 
+        }
+    };
 
     const moodActions = (mood: Mood): Action[] => [
         {
             title: "Editar",
             icon: <Pencil size={16} />,
-            onClick: () => console.log('Editar mood', mood.id)
+            onClick: () => {
+                setSelectedModel("Mood");
+                setSelectedMood(mood); 
+                setAction("Edit");
+                setOpen(true);
+            }
         },
         {
             title: "Excluir",
             icon: <Trash2 size={16} />,
-            onClick: () => console.log('Excluir mood', mood.id),
+            onClick: () => {
+                setItemToDelete(mood)
+            }  
         }
     ]
 
@@ -57,12 +93,19 @@ const GridComponent = ({ data, type }: GridComponentProps) => {
         {
             title: "Editar",
             icon: <Pencil size={16} />,
-            onClick: () => console.log('Editar goal', goal.id)
+            onClick: () => {
+                setSelectedModel("Goal");
+                setSelectedGoal(goal); 
+                setAction("Edit");
+                setOpen(true);
+            }
         },
         {
             title: "Excluir",
             icon: <Trash2 size={16} />,
-            onClick: () => console.log('Excluir mood', goal.id),
+            onClick: () => {
+                setItemToDelete(goal)
+            },
         }
     ]
 
@@ -235,6 +278,27 @@ const GridComponent = ({ data, type }: GridComponentProps) => {
                     </TableBody>
                 </Table>
             </div>
+
+            {selectedModel && (
+                <ButtonsheetComponent
+                    open={open}
+                    onOpenChange={setOpen}
+                    model={selectedModel}
+                    action={action}
+                    user={user} 
+                    mood={selectedModel === "Mood" ? selectedMood ?? undefined : undefined}
+                    goal={selectedModel === "Goal" ? selectedGoal ?? undefined : undefined}
+                />
+                )
+            }
+
+            { itemToDelete && (
+                <ConfirmAlertComponent
+                    onConfirm={handleDelete}
+                    onClose={() => setItemToDelete(null)}
+                />
+                )
+            }
         </div>
     )
 }

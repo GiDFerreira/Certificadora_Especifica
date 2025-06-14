@@ -6,7 +6,7 @@ import { Label } from "../ui/label"
 import Select from "../Select/Select"
 import { useMemo, useState } from "react"
 import axiosService from "@/services/AxiosService"
-import { User } from "@firebase/auth"
+import { User as FirebaseUser } from "@firebase/auth"
 import { Goal } from "@/interfaces/Goal"
 import { Mood } from "@/interfaces/Mood"
 
@@ -15,7 +15,7 @@ interface ButtonsheetComponentProps {
     onOpenChange: (open: boolean) => void
     action: "Create" | "Edit"
     model: "Goal" | "Mood"
-    user: User
+    user: FirebaseUser
     goal?: Goal
     mood?: Mood
 }
