@@ -25,9 +25,9 @@ export default function MoodChart({ data }: MoodChartProps) {
             <SelectValue placeholder="Period" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="7">Últimos 7 dias</SelectItem>
-            <SelectItem value="15">Últimos 15 dias</SelectItem>
-            <SelectItem value="30">Últimos 30 dias</SelectItem>
+            <SelectItem value="7" disabled={data.length < 7}>Últimos 7 dias</SelectItem>
+            <SelectItem value="15" disabled={data.length < 15}>Últimos 15 dias</SelectItem>
+            <SelectItem value="30" disabled={data.length < 30}>Últimos 30 dias</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -58,8 +58,20 @@ export default function MoodChart({ data }: MoodChartProps) {
               const item = payload[0].payload;
               return (
                 <div className="p-2 bg-white rounded shadow">
-                  <p> {reactionDescriptions[item.mood as Reaction]}</p>
-                  <p><strong>Motivo:</strong> {item.note}</p>
+                  <div style={{ display: 'flex', alignItems: 'center', marginBottom: 5 }}>
+                    <div 
+                      style={{
+                        width: 10,
+                        height: 10,
+                        borderRadius: '30%',
+                        backgroundColor: '#548C76',
+                        marginRight: 8,
+                      }}
+                    />
+                    <p> <strong>{reactionDescriptions[item.mood as Reaction]}</strong></p>
+                  </div>
+                  
+                  <p style={{ marginLeft: 18 }}>Motivo: {item.note}</p>
                 </div>
               );
             }
@@ -88,6 +100,7 @@ export default function MoodChart({ data }: MoodChartProps) {
                 </svg>
               );
             }}
+            activeDot={{ r: 0 }} 
           />
         </LineChart>
       </ResponsiveContainer>
