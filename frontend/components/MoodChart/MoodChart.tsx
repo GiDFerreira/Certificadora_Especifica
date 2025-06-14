@@ -84,7 +84,6 @@ export default function MoodChart({ data }: MoodChartProps) {
             stroke="#548C76"
             strokeWidth={2}
             dot={({ cx, cy, payload }) => {
-              console.log(payload);
               const item = payload as Mood; 
               const imgSrc = reactionImages[item.mood as Reaction];
 
