@@ -35,10 +35,11 @@ interface GridComponentProps {
     data: Mood[] | Goal[]
     type: 'Mood' | 'Goal'
     user: User
-    onDelete?: (id: string) => void; 
+    onDelete?: (id: string) => void
+    onSuccess: () => void
 }
 
-const GridComponent = ({ data, type, user, onDelete }: GridComponentProps) => {
+const GridComponent = ({ data, type, user, onDelete, onSuccess }: GridComponentProps) => {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
     const [open, setOpen] = useState(false);
@@ -97,7 +98,7 @@ const GridComponent = ({ data, type, user, onDelete }: GridComponentProps) => {
                 setSelectedModel("Goal");
                 setSelectedGoal(goal); 
                 setAction("Edit");
-                setOpen(true);
+                setOpen(true)
             }
         },
         {
@@ -225,7 +226,17 @@ const GridComponent = ({ data, type, user, onDelete }: GridComponentProps) => {
         state: {
             columnFilters,
         },
-    })
+    });
+
+    const handleOpenChange = (isOpen: boolean) => {
+        if (!isOpen) {
+            setSelectedModel(null);
+            setSelectedMood(null);
+            setSelectedGoal(null);
+        }
+        setOpen(isOpen);
+    };
+
     return (
         <div className="w-full">
             <div className="rounded-md border">
@@ -282,12 +293,13 @@ const GridComponent = ({ data, type, user, onDelete }: GridComponentProps) => {
             {selectedModel && (
                 <ButtonsheetComponent
                     open={open}
-                    onOpenChange={setOpen}
+                    onOpenChange={handleOpenChange}
                     model={selectedModel}
                     action={action}
                     user={user} 
                     mood={selectedModel === "Mood" ? selectedMood ?? undefined : undefined}
                     goal={selectedModel === "Goal" ? selectedGoal ?? undefined : undefined}
+                    onSuccess={onSuccess}
                 />
                 )
             }
