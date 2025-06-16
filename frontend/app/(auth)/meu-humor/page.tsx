@@ -13,9 +13,12 @@ import MoodChart from "@/components/MoodChart/MoodChart";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/context/AuthContext";
 import LoggedUser from "@/components/LoggedUser/loggedUser";
+import Buttonsheet from "@/components/Buttonsheet/Buttonsheet";
 
 export default function MeuHumor() {
   const [moods, setMoods] = useState<Mood[]>([]);
+  const [refreshKey, setRefreshKey] = useState<number>(0);
+  const [createDialog, setCreateDialog] = useState<boolean>(false);
   const { userAuth } = useAuthContext();
   const router = useRouter();
 
@@ -42,9 +45,8 @@ export default function MeuHumor() {
         console.error("Erro ao buscar moods:", err);
       }
     };
-
     fetchMoods();
-  }, []);
+  }, [refreshKey]);
 
   const lastMoods =
     moods.length >= 30
@@ -130,17 +132,20 @@ export default function MeuHumor() {
                 Perceber como você se sente é um passo importante no seu
                 cuidado. Comece registrando seu primeiro humor por aqui.
               </p>
-              <Button className="">REGISTRAR</Button>
+              <Button onClick={() => setCreateDialog(true)}>REGISTRAR</Button>
             </Card>
           </div>
 
           <div className="my-12">
-            <Grid data={moods} type="Mood" user={userAuth} onDelete={handleDeleteMood} />
+            <Grid data={moods} type="Mood" user={userAuth} onDelete={handleDeleteMood} onSuccess={() => setRefreshKey(prev => prev + 1)} />
           </div>
 
           <div>
             <MoodChart data={lastMoods}></MoodChart>
           </div>
+          {createDialog && (
+            <Buttonsheet open={createDialog} onOpenChange={setCreateDialog} model="Mood" action="Create" user={userAuth} onSuccess={() => setRefreshKey(prev => prev + 1)} />
+          )}
         </div>
       )}
     </>
