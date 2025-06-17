@@ -19,7 +19,7 @@ const CompletedGoalsComponent = ({ goals, onClose }: CompletedGoalsComponent) =>
     }
 
     return (
-        <div className="absolute flex flex-col gap-8 right-0 top-0 bottom-0 w-[380px] h-full bg-white p-6 shadow-[0_4px_20px_rgba(0,0,0,0.25)]">
+        <div className="absolute flex flex-col gap-8 right-0 top-0 bottom-0 w-[380px] h-full bg-white p-6 shadow-[0_4px_20px_rgba(0,0,0,0.25)] z-50">
             <div>
                 <div className="absolute top-2 right-2" onClick={onClose}>
                     <X size={18} />

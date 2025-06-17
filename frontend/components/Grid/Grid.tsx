@@ -130,7 +130,12 @@ const GridComponent = ({ data, type }: GridComponentProps) => {
                 {
                     accessorKey: "deadline",
                     header: "Data de entrega",
-                    size: 200 // Tamanho padrão para datas
+                    size: 200, // Tamanho padrão para datas
+                    cell: ({row}) => {
+                        const rawDate = row.getValue<string>("deadline");
+                        const date = new Date(rawDate);
+                        return date.toISOString().split("T")[0];
+                    }
                 },
                 {
                     id: "actions",
