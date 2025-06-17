@@ -30,6 +30,7 @@ import ButtonsheetComponent from "../Buttonsheet/Buttonsheet"
 import { User } from "@firebase/auth"
 import ConfirmAlertComponent from "../ConfirmAlert/ConfirmAlert"
 import { moodService } from "@/services/moodService"
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "../ui/pagination"
 
 interface GridComponentProps {
     data: Mood[] | Goal[]
@@ -223,6 +224,11 @@ const GridComponent = ({ data, type, user, onDelete, onSuccess }: GridComponentP
         getPaginationRowModel: getPaginationRowModel(),
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
+        initialState: {
+            pagination: {
+                pageSize: 4
+            }
+        },
         state: {
             columnFilters,
         },
@@ -288,6 +294,100 @@ const GridComponent = ({ data, type, user, onDelete, onSuccess }: GridComponentP
                         )}
                     </TableBody>
                 </Table>
+            </div>
+            <div className="flex items-center justify-end py-4">
+                <Pagination>
+                    <PaginationContent>
+                    <PaginationItem>
+                        <PaginationPrevious
+                        href="#"
+                        onClick={(e) => {
+                            e.preventDefault()
+                            table.previousPage()
+                        }}
+                        isActive={table.getCanPreviousPage()}
+                        />
+                    </PaginationItem>
+                    
+                    {/* Mostra sempre a primeira página */}
+                    <PaginationItem>
+                        <PaginationLink
+                        href="#"
+                        onClick={(e) => {
+                            e.preventDefault()
+                            table.setPageIndex(0)
+                        }}
+                        isActive={0 === table.getState().pagination.pageIndex}
+                        >
+                        1
+                        </PaginationLink>
+                    </PaginationItem>
+                    
+                    {/* Mostra ellipsis se não estiver perto do início */}
+                    {table.getState().pagination.pageIndex > 2 && (
+                        <PaginationItem>
+                        <PaginationEllipsis />
+                        </PaginationItem>
+                    )}
+                    
+                    {/* Mostra páginas próximas à atual */}
+                    {Array.from({ length: table.getPageCount() })
+                        .map((_, index) => index)
+                        .filter(index => 
+                        index > 0 && 
+                        index < table.getPageCount() - 1 &&
+                        Math.abs(index - table.getState().pagination.pageIndex) <= 1
+                        )
+                        .map(index => (
+                        <PaginationItem key={index}>
+                            <PaginationLink
+                            href="#"
+                            onClick={(e) => {
+                                e.preventDefault()
+                                table.setPageIndex(index)
+                            }}
+                            isActive={index === table.getState().pagination.pageIndex}
+                            >
+                            {index + 1}
+                            </PaginationLink>
+                        </PaginationItem>
+                        ))}
+                    
+                    {/* Mostra ellipsis se não estiver perto do fim */}
+                    {table.getState().pagination.pageIndex < table.getPageCount() - 3 && (
+                        <PaginationItem>
+                        <PaginationEllipsis />
+                        </PaginationItem>
+                    )}
+                    
+                    {/* Mostra sempre a última página */}
+                    {table.getPageCount() > 1 && (
+                        <PaginationItem>
+                        <PaginationLink
+                            href="#"
+                            onClick={(e) => {
+                            e.preventDefault()
+                            table.setPageIndex(table.getPageCount() - 1)
+                            }}
+                            isActive={(table.getPageCount() - 1) === table.getState().pagination.pageIndex}
+                        >
+                            {table.getPageCount()}
+                        </PaginationLink>
+                        </PaginationItem>
+                    )}
+                    
+                    <PaginationItem>
+                        <PaginationNext
+                        href="#"
+                        onClick={(e) => {
+                            e.preventDefault()
+                            table.nextPage()
+                        }}
+                        isActive={table.getCanNextPage()}
+                        />
+                    </PaginationItem>
+                    </PaginationContent>
+                </Pagination>
             </div>
 
             {selectedModel && (
