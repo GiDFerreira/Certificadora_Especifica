@@ -2,7 +2,7 @@ import { getAuth } from 'firebase/auth';
 import axios from 'axios';
 
 const axiosService = axios.create({
-    baseURL: process.env.REACT_APP_API_URL || 'http://localhost:3000/', // precisa colocar a URL do ambiente de producao depois
+    baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/',
 });
 
 axiosService.interceptors.request.use(

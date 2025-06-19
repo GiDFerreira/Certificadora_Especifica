@@ -240,14 +240,13 @@ const ButtonsheetComponent = ({ open, onOpenChange, action, model, user, goal, m
                         if (action === "Create") {
                             model === "Goal" ? createGoal() : createMood();
                         } else {
-                            setOpenConfirm(true);
+                            model === "Goal" ? editGoal() : editMood();
                         }
-                    }} className="mt-4">SALVAR</Button>
+                    }} className="mt-4">SALVAR
+                    </Button>
+
                 </DialogFooter>
             </DialogContent>
-            {openConfirm && (
-                <ConfirmAlert onConfirm={() => model === "Mood" ? editMood() : editGoal() } onClose={() => setOpenConfirm(false)} />
-            )}
         </Dialog>
     )
 }

@@ -383,12 +383,14 @@ const GridComponent = ({ data, type, user, onDelete, onSuccess }: GridComponentP
                     
                     <PaginationItem>
                         <PaginationNext
-                        href="#"
-                        onClick={(e) => {
-                            e.preventDefault()
-                            table.nextPage()
-                        }}
-                        isActive={table.getCanNextPage()}
+                            href="#"
+                            onClick={(e) => {
+                            e.preventDefault();
+                            if (table.getCanNextPage()) {
+                                table.nextPage();
+                            }
+                            }}
+                            className={!table.getCanNextPage() ? "pointer-events-none opacity-50" : ""}
                         />
                     </PaginationItem>
                     </PaginationContent>

@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/context/AuthContext";
 import LoggedUser from "@/components/LoggedUser/loggedUser";
 import Buttonsheet from "@/components/Buttonsheet/Buttonsheet";
+import MyBot from "@/components/Chatbot/Chatbot";
 
 export default function MeuHumor() {
   const [moods, setMoods] = useState<Mood[]>([]);
@@ -60,11 +61,11 @@ export default function MeuHumor() {
   return (
     <>
       {userAuth && (
-        <div className="w-full p-12">
+        <div className="w-full p-4 md:p-12">
           <div className="flex justify-between items-center">
-            <h1 className="font-bold text-3xl">Meu Humor</h1>
+            <h1 className="font-bold text-xl text-center md:text-left md:text-3xl w-full"> Meu Humor </h1>
             <div className="flex items-center gap-2">
-              <LoggedUser userName={"Gato"} userEmail={"gato@mail.com"} image={""}/>
+              <LoggedUser userName={userAuth.displayName ?? ""} userEmail={userAuth.email ?? ""} image={""}/>
             </div>
           </div>
           <div className="flex flex-col gap-4 mt-12">
@@ -137,7 +138,13 @@ export default function MeuHumor() {
           </div>
 
           <div className="my-12">
-            <Grid data={moods} type="Mood" user={userAuth} onDelete={handleDeleteMood} onSuccess={() => setRefreshKey(prev => prev + 1)} />
+            <Grid 
+              data={[...moods].sort((a, b) => new Date(b.createdAt ?? 0).getTime() - new Date(a.createdAt ?? 0).getTime())}
+              type="Mood" 
+              user={userAuth} 
+              onDelete={handleDeleteMood} 
+              onSuccess={() => setRefreshKey(prev => prev + 1)} 
+            />
           </div>
 
           <div>
@@ -146,6 +153,7 @@ export default function MeuHumor() {
           {createDialog && (
             <Buttonsheet open={createDialog} onOpenChange={setCreateDialog} model="Mood" action="Create" user={userAuth} onSuccess={() => setRefreshKey(prev => prev + 1)} />
           )}
+          <MyBot></MyBot>
         </div>
       )}
     </>
