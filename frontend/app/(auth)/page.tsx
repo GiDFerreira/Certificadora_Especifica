@@ -19,11 +19,11 @@ export default function Home() {
   return (
     <>
       {userAuth && (
-        <div className="p-12">
+        <div className="w-full p-4 md:p-12">
           <div className="flex justify-between items-center">
-            <h1 className="font-bold text-3xl">Início</h1>
+            <h1 className="font-bold text-xl text-center md:text-left md:text-3xl w-full"> Início </h1>
             <div className="flex items-center gap-2">
-              <LoggedUser userName={"Gato"} userEmail={"gato@mail.com"} image={""}/>
+              <LoggedUser userName={userAuth.displayName ?? ""} userEmail={userAuth.email ?? ""} image={""}/>
             </div>
           </div>
           <div className="mt-12">

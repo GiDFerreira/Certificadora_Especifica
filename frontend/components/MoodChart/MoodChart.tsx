@@ -13,7 +13,7 @@ interface MoodChartProps {
 }
 
 export default function MoodChart({ data }: MoodChartProps) {
-  const [period, setPeriod] = useState('15');
+  const [period, setPeriod] = useState('7');
   
   const filteredData = data.slice(-Number(period));
 

@@ -15,6 +15,7 @@ import { useAuthContext } from "@/context/AuthContext";
 import LoggedUser from "@/components/LoggedUser/loggedUser";
 import Buttonsheet from "@/components/Buttonsheet/Buttonsheet";
 import MyBot from "@/components/Chatbot/Chatbot";
+import MoodEmptyStateComponent from "@/components/MoodEmptyState/MoodEmptyState";
 
 export default function MeuHumor() {
   const [moods, setMoods] = useState<Mood[]>([]);
@@ -63,97 +64,107 @@ export default function MeuHumor() {
       {userAuth && (
         <div className="w-full p-4 md:p-12">
           <div className="flex justify-between items-center">
-            <h1 className="font-bold text-xl text-center md:text-left md:text-3xl w-full"> Meu Humor </h1>
-            <div className="flex items-center gap-2">
-              <LoggedUser userName={userAuth.displayName ?? ""} userEmail={userAuth.email ?? ""} image={""}/>
-            </div>
+              <h1 className="font-bold text-xl text-center md:text-left md:text-3xl w-full"> Meu Humor </h1>
+              <div className="flex items-center gap-2">
+                <LoggedUser userName={userAuth.displayName ?? ""} userEmail={userAuth.email ?? ""} image={""}/>
+              </div>
           </div>
           <div className="flex flex-col gap-4 mt-12">
-            <div className="w-full flex justify-center">
-              <span className="justify-between text-rose-400">
+              <div className="w-full flex justify-center">
+                <span className="justify-between text-rose-400">
                 Como você define seu dia hoje?
-              </span>
-            </div>
-            <Card className="bg-[var(--darker-pink)]/50 w-full flex justify-center">
-              <div className="flex items-center justify-between px-12">
-                <div className="text-center cursor-pointer">
-                  <Image
-                    src="/feliz.svg"
-                    alt="feliz"
-                    width={100}
-                    height={100}
-                    className="hover:scale-110 hover:rotate-3 transition-all duration-300"
-                  />
-                  <span>Feliz</span>
-                </div>
-                <div className="text-center cursor-pointer">
-                  <Image
-                    src="/maisoumenos.svg"
-                    alt="maisoumenos"
-                    width={100}
-                    height={100}
-                    className="hover:scale-110 hover:rotate-3 transition-all duration-300"
-                  />
-                  <span>Mais ou menos</span>
-                </div>
-                <div className="text-center cursor-pointer">
-                  <Image
-                    src="/indiferente.svg"
-                    alt="indiferente"
-                    width={100}
-                    height={100}
-                    className="hover:scale-110 hover:rotate-3 transition-all duration-300"
-                  />
-                  <span>Indiferente</span>
-                </div>
-                <div className="text-center cursor-pointer">
-                  <Image
-                    src="/triste.svg"
-                    alt="triste"
-                    width={100}
-                    height={100}
-                    className="hover:scale-110 hover:rotate-3 transition-all duration-300"
-                  />
-                  <span>Triste</span>
-                </div>
-                <div className="text-center cursor-pointer">
-                  <Image
-                    src="/bravo.svg"
-                    alt="bravo"
-                    width={100}
-                    height={100}
-                    className="hover:scale-110 hover:rotate-3 transition-all duration-300"
-                  />
-                  <span>Bravo</span>
-                </div>
+                </span>
               </div>
-            </Card>
-            <Card className="w-full flex flex-col items-center text-center justify-between gap-4 mt-12">
-              <p className="">
-                Perceber como você se sente é um passo importante no seu
-                cuidado. Comece registrando seu primeiro humor por aqui.
-              </p>
-              <Button onClick={() => setCreateDialog(true)}>REGISTRAR</Button>
-            </Card>
+              <Card className="bg-[var(--darker-pink)]/50 w-full flex justify-center">
+                <div className="flex items-center justify-between px-12">
+                    <div className="text-center cursor-pointer">
+                      <Image
+                          src="/feliz.svg"
+                          alt="feliz"
+                          width={100}
+                          height={100}
+                          className="hover:scale-110 hover:rotate-3 transition-all duration-300"
+                          />
+                      <span>Feliz</span>
+                    </div>
+                    <div className="text-center cursor-pointer">
+                      <Image
+                          src="/maisoumenos.svg"
+                          alt="maisoumenos"
+                          width={100}
+                          height={100}
+                          className="hover:scale-110 hover:rotate-3 transition-all duration-300"
+                          />
+                      <span>Mais ou menos</span>
+                    </div>
+                    <div className="text-center cursor-pointer">
+                      <Image
+                          src="/indiferente.svg"
+                          alt="indiferente"
+                          width={100}
+                          height={100}
+                          className="hover:scale-110 hover:rotate-3 transition-all duration-300"
+                          />
+                      <span>Indiferente</span>
+                    </div>
+                    <div className="text-center cursor-pointer">
+                      <Image
+                          src="/triste.svg"
+                          alt="triste"
+                          width={100}
+                          height={100}
+                          className="hover:scale-110 hover:rotate-3 transition-all duration-300"
+                          />
+                      <span>Triste</span>
+                    </div>
+                    <div className="text-center cursor-pointer">
+                      <Image
+                          src="/bravo.svg"
+                          alt="bravo"
+                          width={100}
+                          height={100}
+                          className="hover:scale-110 hover:rotate-3 transition-all duration-300"
+                          />
+                      <span>Bravo</span>
+                    </div>
+                </div>
+              </Card>
           </div>
-
+          
+          {moods.length === 0 ? (
+          <div className="mt-12">
+              <MoodEmptyStateComponent onRegisterClick={() =>
+              setCreateDialog(true)} />
+          </div>
+          ) : (
+          <>
           <div className="my-12">
-            <Grid 
-              data={[...moods].sort((a, b) => new Date(b.createdAt ?? 0).getTime() - new Date(a.createdAt ?? 0).getTime())}
+              <Grid 
+                data={[...moods].sort((a, b) =>
+              new Date(b.createdAt ?? 0).getTime() - new Date(a.createdAt ?? 0).getTime())}
               type="Mood" 
               user={userAuth} 
               onDelete={handleDeleteMood} 
               onSuccess={() => setRefreshKey(prev => prev + 1)} 
-            />
+              />
           </div>
-
           <div>
-            <MoodChart data={lastMoods}></MoodChart>
+              <MoodChart data={lastMoods} />
           </div>
-          {createDialog && (
-            <Buttonsheet open={createDialog} onOpenChange={setCreateDialog} model="Mood" action="Create" user={userAuth} onSuccess={() => setRefreshKey(prev => prev + 1)} />
+          </>
           )}
-          <MyBot></MyBot>
+          {createDialog && (
+          <Buttonsheet
+              open={createDialog}
+              onOpenChange={setCreateDialog}
+              model="Mood"
+              action="Create"
+              user={userAuth}
+              onSuccess={() =>
+          setRefreshKey(prev => prev + 1)}
+          />
+          )}
+          <MyBot />
         </div>
       )}
     </>
