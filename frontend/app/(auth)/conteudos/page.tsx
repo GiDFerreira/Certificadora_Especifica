@@ -16,12 +16,12 @@ export default function Conteudos() {
   return (
     <>
       {userAuth && (
-      <div className="w-[70%] md:w-[85%] lg:w-[90%] ml-20">
+      <div className="w-full p-4 md:p-12">
         <div className="space-y-6">
 
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold">Conteúdos</h1>
-            <LoggedUserComponent image="/firulagames.jpg" userName="Barbie" userEmail="barbie@gmail.com"></LoggedUserComponent>
+            <h1 className="font-bold text-xl text-center md:text-left md:text-3xl w-full"> Conteúdos </h1>
+            <LoggedUserComponent userName={userAuth.displayName ?? ""} userEmail={userAuth.email ?? ""} image={""}/>
           </div>
 
           <div style={{ backgroundColor: 'rgba(211, 226, 220, 0.53)' }} className="bg-muted p-4 rounded-md text-sm flex items-start gap-2 border border-muted-foreground/10">
@@ -38,7 +38,6 @@ export default function Conteudos() {
           
         </div>
       </div>
-
       )}
     </>
   );
