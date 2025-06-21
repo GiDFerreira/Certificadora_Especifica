@@ -34,31 +34,7 @@ export default function Empty() {
           </div>
         </Card>
       </div>
-      <div>
-        <Card className="rounded-lg bg-green-100 p-6 shadow-md ml-18 mr-4 px-10 py-10">
-        <div className="flex items-center justify-between">
-          <div className="flex flex-col gap-4">
-            <p className="text-base">
-              Você ainda não tem metas cadastradas.
-              <br />
-              Cadastre sua primeira meta para conseguir acompanhá-la.
-            </p>
-            <Button className="bg-green-600 hover:bg-green-700 text-white">
-              CADASTRAR
-            </Button>
-          </div>
-
-            <div className="hidden md:block">
-              <Image
-                src="/MulherAmpulheta-Photoroom.png" 
-                alt="Ilustração de metas"
-                width={385}
-                height={385}
-              />
-            </div>
-          </div>
-        </Card>
-      </div>
+      
         
         
     </>

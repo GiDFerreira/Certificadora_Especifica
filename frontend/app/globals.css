@@ -86,6 +86,10 @@
   --gray: #71717A;
   --light-green: #D3E2DC;
   --black: #2E2E2E;
+  --darker-green: #548C76;
+  --green: #76A693;
+  --lighter-pink: #F8D7DA;
+  --extremely-light-pink: #FFEBED;
 }
 
 @layer base {
