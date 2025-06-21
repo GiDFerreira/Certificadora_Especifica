@@ -10,6 +10,7 @@ import { User as FirebaseUser } from "@firebase/auth"
 import { Goal } from "@/interfaces/Goal"
 import { Mood } from "@/interfaces/Mood"
 import ConfirmAlert from "../ConfirmAlert/ConfirmAlert"
+import { Reaction } from "@/utils/enums/Reaction"
 
 interface ButtonsheetComponentProps {
     open: boolean
@@ -138,11 +139,11 @@ const ButtonsheetComponent = ({ open, onOpenChange, action, model, user, goal, m
     }
 
     const selectMoods = useMemo(() => [
-        { title: "Feliz", value: 1 },
-        { title: "Mais ou menos", value: 2 },
-        { title: "Indiferente", value: 3 },
-        { title: "Triste", value: 4 },
-        { title: "Frustado", value: 5 },
+        { title: "Feliz", value: Reaction.Feliz },
+        { title: "Mais ou menos", value: Reaction.MaisOuMenos },
+        { title: "Indiferente", value: Reaction.Indiferente },
+        { title: "Triste", value: Reaction.Triste },
+        { title: "Frustado", value: Reaction.Frustrante },
     ], []);
 
     const handleOpenChange = (isOpen: boolean) => {
