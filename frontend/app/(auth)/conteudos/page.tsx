@@ -4,6 +4,15 @@ import { useAuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import LoggedUserComponent from "@/components/LoggedUser/loggedUser";
 import { VideoCarousel } from "@/components/VideoCarousel/VideoCarousel";
+import AccordionComponent from "@/components/Accordion/Accordion";
+import AvatarComponent from "@/components/Avatar/Avatar";
+import AgenlinaPsi from "@/public/angelinipsi.jpg";
+import BiancaPsi from "@/public/biancamayumi.jpg";
+import IzabellaPsi from "@/public/izabellacamargo.jpg";
+import DrauzioLogo from "@/public/drauzio.jpg";
+
+
+
 
 export default function Conteudos() {
   const { userAuth } = useAuthContext();
@@ -12,6 +21,25 @@ export default function Conteudos() {
   if(userAuth == null) {
     router.push("/login");
   }
+
+  const blogLinks = [
+    {
+      title: "PsyMed",
+      link: "https://psymed.com.br",
+      description: "Disponibiliza artigos sobre diversos temas relacionados à saúde mental e dicas sobre como manter o bem-estar."
+    },
+    {
+      title: "Eu Sinto",
+      link: "https://eusinto.com.br",
+      description: "Um portal com informações e recursos de qualidade sobre saúde psicológica e bem-estar, baseados em evidências científicas da psicologia, atualizados, gratuitos e acessíveis a todos."
+    },
+    {
+      title: "Instituto Ame Sua Mente",
+      link: "https://amesuamente.com.br",
+      description: "Apresenta textos sobre temas do dia a dia com uma linguagem direta, abordando assuntos como ansiedade, bullying, depressão, diversidade, estresse, entre outros."
+    }
+  ];
+
 
   return (
     <>
@@ -36,6 +64,30 @@ export default function Conteudos() {
             </div>
           </section>
           
+          <div>
+            <h2 className="text-lg font-semibold mb-4">Blogs e sites para leitura</h2>
+            <AccordionComponent items={blogLinks} />
+          </div>
+
+          <div>
+            <h2 className="text-lg font-semibold mb-4">Pessoas</h2>
+            <section>
+              <div className="flex flex-col gap-4 md:flex-row flex-wrap md:gap-8">
+                <div className="flex items-center gap-4">
+                  <AvatarComponent image={AgenlinaPsi} name="Amanda Angelini Psicóloga" username="angelini.psi"></AvatarComponent>
+                </div>
+                <div className="flex items-center gap-4">
+                  <AvatarComponent image={BiancaPsi} name="Bianca Mayumi" username="psi.bianca"></AvatarComponent>
+                </div>
+                <div className="flex items-center gap-4">
+                  <AvatarComponent image={IzabellaPsi} name="Izabella Camargo" username="izabellacamargoreal"></AvatarComponent>
+                </div>
+                <div className="flex items-center gap-4">
+                  <AvatarComponent image={DrauzioLogo} name="Portal Drauzio" username="sitedrauziovarella"></AvatarComponent>
+                </div>
+              </div>
+            </section>
+          </div>
         </div>
       </div>
       )}
