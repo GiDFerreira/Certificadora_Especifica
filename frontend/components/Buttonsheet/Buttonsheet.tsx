@@ -21,9 +21,10 @@ interface ButtonsheetComponentProps {
     goal?: Goal
     mood?: Mood
     onSuccess?: () => void
+    onMoodCreated?: (newMood: Mood) => void
 }
 
-const ButtonsheetComponent = ({ open, onOpenChange, action, model, user, goal, mood, onSuccess }: ButtonsheetComponentProps) => {
+const ButtonsheetComponent = ({ open, onOpenChange, action, model, user, goal, mood, onSuccess, onMoodCreated }: ButtonsheetComponentProps) => {
     const [newMood, setNewMood] = useState<number | null>(null);
     const [newNote, setNewNote] = useState<string>("");
     const [newTitle, setNewTitle] = useState<string>("");
@@ -77,11 +78,12 @@ const ButtonsheetComponent = ({ open, onOpenChange, action, model, user, goal, m
             } else if(newNote.length < 3 || newNote.length > 300) {
                 setNoteError("O motivo deve ter entre 3 a 300 caracteres");
             } else {
-                await axiosService.post("/api/moods/", {
+                const response = await axiosService.post("/api/moods/", {
                     userId: user.uid,
                     mood: newMood,
                     note: newNote || "",
                 });
+                onMoodCreated?.(response.data);
                 onSuccess?.();
                 onOpenChange(false);
             }
