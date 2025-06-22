@@ -21,7 +21,7 @@ import { Mood } from "@/interfaces/Mood"
 import { Goal } from "@/interfaces/Goal"
 import Dropdown from "../Dropdown/Dropdown"
 import { Action } from "@/interfaces/Action"
-import { Archive, Pencil, Trash2 } from "lucide-react"
+import { FileCheck, Pencil, Trash2 } from "lucide-react"
 import { formatBrazilianDate } from "@/utils/dateUtils"
 import { Reaction } from "@/utils/enums/Reaction"
 import { reactionImages } from "@/utils/constants/reactionsMapping"
@@ -41,7 +41,6 @@ interface GridComponentProps {
 
 const GridComponent = ({ data, type, user, onDelete, onSuccess }: GridComponentProps) => {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-
     const [open, setOpen] = useState(false);
     const [selectedModel, setSelectedModel] = useState<"Mood" | "Goal" | null>(null);
     const [action, setAction] = useState<"Create" | "Edit">("Edit");
@@ -68,7 +67,7 @@ const GridComponent = ({ data, type, user, onDelete, onSuccess }: GridComponentP
     const moodActions = (mood: Mood): Action[] => [
         {
             title: "Editar",
-            icon: <Pencil size={16} />,
+            icon: <Pencil size={16} color="black" />,
             onClick: () => {
                 setSelectedModel("Mood");
                 setSelectedMood(mood); 
@@ -78,7 +77,7 @@ const GridComponent = ({ data, type, user, onDelete, onSuccess }: GridComponentP
         },
         {
             title: "Excluir",
-            icon: <Trash2 size={16} />,
+            icon: <Trash2 size={16} color="red" />,
             onClick: () => {
                 setItemToDelete(mood)
             }  
@@ -88,12 +87,12 @@ const GridComponent = ({ data, type, user, onDelete, onSuccess }: GridComponentP
     const goalActions = (goal: Goal): Action[] => [
         {
             title: "Marcar como concluída",
-            icon: <Archive size={16} />,
+            icon: <FileCheck size={16} color="black" />,
             onClick: () => console.log('Arquivar goal', goal.id)
         },
         {
             title: "Editar",
-            icon: <Pencil size={16} />,
+            icon: <Pencil size={16} color="black" />,
             onClick: () => {
                 setSelectedModel("Goal");
                 setSelectedGoal(goal); 
@@ -103,10 +102,11 @@ const GridComponent = ({ data, type, user, onDelete, onSuccess }: GridComponentP
         },
         {
             title: "Excluir",
-            icon: <Trash2 size={16} />,
+            icon: <Trash2 size={16} color="red" />,
             onClick: () => {
                 setItemToDelete(goal)
             },
+            className: "text-red-700"
         }
     ]
 
@@ -165,7 +165,7 @@ const GridComponent = ({ data, type, user, onDelete, onSuccess }: GridComponentP
                 {
                     accessorKey: "title",
                     header: "Título",
-                    size: 500, // Tamanho aumentado para 500px
+                    size: 500,
                     cell: ({ row }) => (
                         <div className="w-[500px] truncate">
                             {row.getValue("title")}
@@ -175,17 +175,23 @@ const GridComponent = ({ data, type, user, onDelete, onSuccess }: GridComponentP
                 {
                     accessorKey: "deadline",
                     header: "Data de entrega",
-                    size: 200, // Tamanho padrão para datas
-                    cell: ({row}) => {
-                        const rawDate = row.getValue<string>("deadline");
-                        const date = new Date(rawDate);
-                        return date.toISOString().split("T")[0];
+                    size: 200,
+                    cell: ({ row }) => {
+                        const today = new Date();
+                        today.setHours(0, 0, 0, 0);
+                        const deadline =new Date(row.getValue("deadline"));
+
+                        return (
+                            <div className={deadline < today ? 'text-red-700' : ''}>
+                                {formatBrazilianDate(row.getValue("deadline"))}
+                            </div>
+                        )
                     }
                 },
                 {
                     id: "actions",
                     enableHiding: false,
-                    size: 120, // Tamanho fixo para ações
+                    size: 120,
                     cell: ({ row }) => {
                         const goal = goalActions(row.original as Goal)
                         return <Dropdown label="Ações" actions={goal} />
@@ -288,7 +294,6 @@ const GridComponent = ({ data, type, user, onDelete, onSuccess }: GridComponentP
                         />
                     </PaginationItem>
                     
-                    {/* Mostra sempre a primeira página */}
                     <PaginationItem>
                         <PaginationLink
                         href="#"
@@ -302,14 +307,12 @@ const GridComponent = ({ data, type, user, onDelete, onSuccess }: GridComponentP
                         </PaginationLink>
                     </PaginationItem>
                     
-                    {/* Mostra ellipsis se não estiver perto do início */}
                     {table.getState().pagination.pageIndex > 2 && (
                         <PaginationItem>
                         <PaginationEllipsis />
                         </PaginationItem>
                     )}
                     
-                    {/* Mostra páginas próximas à atual */}
                     {Array.from({ length: table.getPageCount() })
                         .map((_, index) => index)
                         .filter(index => 
@@ -332,14 +335,12 @@ const GridComponent = ({ data, type, user, onDelete, onSuccess }: GridComponentP
                         </PaginationItem>
                         ))}
                     
-                    {/* Mostra ellipsis se não estiver perto do fim */}
                     {table.getState().pagination.pageIndex < table.getPageCount() - 3 && (
                         <PaginationItem>
                         <PaginationEllipsis />
                         </PaginationItem>
                     )}
                     
-                    {/* Mostra sempre a última página */}
                     {table.getPageCount() > 1 && (
                         <PaginationItem>
                         <PaginationLink
@@ -385,7 +386,7 @@ const GridComponent = ({ data, type, user, onDelete, onSuccess }: GridComponentP
                 )
             }
 
-            { itemToDelete && (
+            {itemToDelete && (
                 <ConfirmAlertComponent
                     onConfirm={handleDelete}
                     onClose={() => setItemToDelete(null)}

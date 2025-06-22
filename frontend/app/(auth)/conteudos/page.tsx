@@ -24,18 +24,18 @@ export default function Conteudos() {
 
   const blogLinks = [
     {
-      title: "PsyMed",
-      link: "https://psymed.com.br",
+      title: "PsyMeet Blog",
+      link: "https://www.psymeetsocial.com/blog",
       description: "Disponibiliza artigos sobre diversos temas relacionados à saúde mental e dicas sobre como manter o bem-estar."
     },
     {
-      title: "Eu Sinto",
-      link: "https://eusinto.com.br",
+      title: "Eu Sinto-me",
+      link: "https://eusinto.me/",
       description: "Um portal com informações e recursos de qualidade sobre saúde psicológica e bem-estar, baseados em evidências científicas da psicologia, atualizados, gratuitos e acessíveis a todos."
     },
     {
       title: "Instituto Ame Sua Mente",
-      link: "https://amesuamente.com.br",
+      link: "https://www.amesuamente.org.br/",
       description: "Apresenta textos sobre temas do dia a dia com uma linguagem direta, abordando assuntos como ansiedade, bullying, depressão, diversidade, estresse, entre outros."
     }
   ];
