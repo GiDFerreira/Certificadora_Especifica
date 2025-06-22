@@ -1,5 +1,5 @@
 import Button from "../Button/Button"
-import Input from "../Input/Input"
+import Textarea from "../TextArea/TextArea"
 import DatePicker from "../DatePicker/DatePicker"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog"
 import { Label } from "../ui/label"
@@ -31,14 +31,14 @@ const ButtonsheetComponent = ({ open, onOpenChange, action, model, user, goal, m
     const [toEditMood, setToEditMood] = useState<number | undefined>(mood?.mood);
     const [toEditNote, setToEditNote] = useState<string | undefined>(mood?.note);
     const [toEditTitle, setToEditTitle] = useState<string | undefined>(goal?.title);
-    const [toEditDeadline, setToEditDeadline] = useState<Date | undefined>(goal?.deadline);
+    const [toEditDeadline, setToEditDeadline] = useState<Date | undefined>(
+        goal?.deadline ? new Date(goal.deadline) : undefined
+    );
     const [openConfirm, setOpenConfirm] = useState<boolean>(false);
     const [titleError, setTitleError] = useState<string>("");
     const [deadlineError, setDeadlineError] = useState<string>("");
     const [noteError, setNoteError] = useState<string>("");
     const [moodError, setMoodError] = useState<string>("");
-
-    console.log("goal:", newTitle, " deadline: ", newDeadline?.toISOString(), " user: ", user);
 
     const createGoal = async () => {
         try {
@@ -92,19 +92,19 @@ const ButtonsheetComponent = ({ open, onOpenChange, action, model, user, goal, m
 
     const editGoal = async () => {
         try {
-            if (!newTitle && !newDeadline){
+            if (!toEditTitle && !toEditDeadline){
                 setTitleError("Este campo é obrigatório");
                 setDeadlineError("Este campo é obrigatório");
-            }else if(!newTitle) {
+            }else if(!toEditTitle) {
                 setTitleError("Este campo é obrigatório");
-            } else if (newTitle.length < 3 || newTitle.length > 300) {
+            } else if (toEditTitle.length < 3 || toEditTitle.length > 300) {
                 setTitleError("A meta deve ter entre 3 a 300 caracteres");
-            } else if (!newDeadline) {
+            } else if (!toEditDeadline) {
                 setDeadlineError("Este campo é obrigatório");
             } else {
                 await axiosService.patch(`/api/goals/${goal?.id}`, {
                     title: toEditTitle,
-                    deadline: toEditDeadline?.toISOString(),
+                    deadline: toEditDeadline?.toISOString() || "",
                 });
                 onSuccess?.();
                 onOpenChange(false);
@@ -185,7 +185,11 @@ const ButtonsheetComponent = ({ open, onOpenChange, action, model, user, goal, m
                                 action === "Create" ? (
                                     <>
                                         <div>
-                                            <Input label="Sua meta:" placeholder="Ex: Meditar 10 minutos pela manhã." id="goal" value={newTitle} onChange={(e) => { setTitleError(""); setNewTitle(e.target.value) }} className={titleError ? "border-red-700" : ""} required />
+                                            <Textarea label="Sua meta:" placeholder="Ex: Meditar 10 minutos pela manhã." id="goal" value={newTitle} maxLength={300} onChange={(e) => { setTitleError(""); setNewTitle(e.target.value) }} className={titleError ? "border-red-700" : ""} required />
+                                            <div className="text-right text-sm text-muted-foreground mt-1">
+                                                {newTitle.length}/300
+                                            </div>
+                                            
                                             {titleError && <p className="text-red-700 text-[12px]">{titleError}</p>}
                                         </div>
                                         <div className="flex flex-col gap-2">
@@ -197,7 +201,10 @@ const ButtonsheetComponent = ({ open, onOpenChange, action, model, user, goal, m
                                 ) : (
                                     <>
                                         <div>
-                                            <Input label="Sua meta:" placeholder="Ex: Meditar 10 minutos pela manhã." id="goal" value={toEditTitle} onChange={(e) => { setTitleError(""); setToEditTitle(e.target.value) }} required />
+                                            <Textarea label="Sua meta:" placeholder="Ex: Meditar 10 minutos pela manhã." id="goal" value={toEditTitle} maxLength={300} onChange={(e) => { setTitleError(""); setToEditTitle(e.target.value) }} required />
+                                            <div className="text-right text-sm text-muted-foreground mt-1">
+                                                {toEditTitle?.length}/300
+                                            </div>
                                             {titleError && <p className="text-red-700 text-[12px]">{titleError}</p>}
                                         </div>
                                         <div className="flex flex-col gap-2">
@@ -216,7 +223,10 @@ const ButtonsheetComponent = ({ open, onOpenChange, action, model, user, goal, m
                                             {moodError && <p className="text-red-700 text-[12px]">{moodError}</p>}
                                         </div>
                                         <div>
-                                            <Input label="Motivo" placeholder="Ex: Consegui me alimentar de forma saudável hoje." id="motive" value={newNote} onChange={(e) => { setNoteError(""); setNewNote(e.target.value) }} className={noteError ? "border-red-700" : ""} required/>
+                                            <Textarea label="Motivo" placeholder="Ex: Consegui me alimentar de forma saudável hoje." id="motive" maxLength={300} value={newNote} onChange={(e) => { setNoteError(""); setNewNote(e.target.value) }} className={noteError ? "border-red-700" : ""} required/>
+                                            <div className="text-right text-sm text-muted-foreground mt-1">
+                                                {newNote.length}/300
+                                            </div>
                                             {noteError && <p className="text-red-700 text-[12px]">{noteError}</p>}
                                         </div>
                                     </>
@@ -228,7 +238,10 @@ const ButtonsheetComponent = ({ open, onOpenChange, action, model, user, goal, m
                                             {moodError && <p className="text-red-700 text-[12px]">{moodError}</p>}
                                         </div>
                                         <div>
-                                            <Input label="Motivo" placeholder="Ex: Consegui me alimentar de forma saudável hoje." id="motive" value={toEditNote} onChange={(e) => { setNoteError(""); setToEditNote(e.target.value) }} className={noteError ? "border-red-700" : ""} required/>
+                                            <Textarea label="Motivo" placeholder="Ex: Consegui me alimentar de forma saudável hoje." id="motive" value={toEditNote} onChange={(e) => { setNoteError(""); setToEditNote(e.target.value) }} maxLength={300} className={noteError ? "border-red-700" : ""} required/>
+                                            <div className="text-right text-sm text-muted-foreground mt-1">
+                                                {toEditNote?.length}/300
+                                            </div>
                                             {noteError && <p className="text-red-700 text-[12px]">{noteError}</p>}
                                         </div>
                                     </>
