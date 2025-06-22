@@ -196,14 +196,14 @@ const ButtonsheetComponent = ({ open, onOpenChange, action, model, user, goal, m
                                         </div>
                                         <div className="flex flex-col gap-2">
                                             <Label>Data de conclusão:</Label>
-                                            <DatePicker selected={newDeadline} onSelect={(date) => { setDeadlineError(""); setNewDeadline(date) }} fromDate={new Date()} className={deadlineError ? "border-red-700" : ""} />
+                                            <DatePicker selected={newDeadline} onSelect={(date) => { setDeadlineError(""); setNewDeadline(date) }} className={deadlineError ? "border-red-700" : ""} />
                                             {deadlineError && <p className="text-red-700 text-[12px]">{deadlineError}</p>}
                                         </div>
                                     </>
                                 ) : (
                                     <>
                                         <div>
-                                            <Textarea label="Sua meta:" placeholder="Ex: Meditar 10 minutos pela manhã." id="goal" value={toEditTitle} maxLength={300} onChange={(e) => { setTitleError(""); setToEditTitle(e.target.value) }} required />
+                                            <Textarea label="Sua meta:" placeholder="Ex: Meditar 10 minutos pela manhã." id="goal" value={toEditTitle} maxLength={300} onChange={(e) => { setTitleError(""); setToEditTitle(e.target.value) }} className={titleError ? "border-red-700" : ""} required />
                                             <div className="text-right text-sm text-muted-foreground mt-1">
                                                 {toEditTitle?.length}/300
                                             </div>
@@ -211,7 +211,7 @@ const ButtonsheetComponent = ({ open, onOpenChange, action, model, user, goal, m
                                         </div>
                                         <div className="flex flex-col gap-2">
                                             <Label>Data de conclusão:</Label>
-                                            <DatePicker selected={toEditDeadline} onSelect={(date) => { setDeadlineError(""); setToEditDeadline(date) }} fromDate={goal?.deadline}></DatePicker>
+                                            <DatePicker selected={toEditDeadline} onSelect={(date) => { setDeadlineError(""); setToEditDeadline(date) }} className={deadlineError ? "border-red-700" : ""}></DatePicker>
                                             {deadlineError && <p className="text-red-700 text-[12px]">{deadlineError}</p>}
                                         </div>
                                     </>

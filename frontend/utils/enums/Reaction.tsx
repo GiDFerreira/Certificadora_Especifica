@@ -1,7 +1,7 @@
 export enum Reaction {
-    Frustrante = 1,
-    Triste = 2,
+    Feliz = 1,
+    MaisOuMenos = 2,
     Indiferente = 3,
-    MaisOuMenos = 4,
-    Feliz = 5,
+    Triste = 4,
+    Frustrante = 5,
 }

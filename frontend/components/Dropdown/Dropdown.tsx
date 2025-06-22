@@ -25,7 +25,7 @@ const DropdownComponent = ({ label, actions }: DropdownComponentProps) => {
                     <DropdownMenuItem
                         key={index}
                         onClick={action.onClick}
-                        className="flex items-center gap-2"
+                        className={`flex items-center gap-2 ${action.className}`}
                     >
                         {action.icon && <span>{action.icon}</span>}
                         {action.title}
