@@ -13,7 +13,6 @@ import Buttonsheet from "@/components/Buttonsheet/Buttonsheet";
 import MyBot from "@/components/Chatbot/Chatbot";
 import MoodEmptyStateComponent from "@/components/MoodEmptyState/MoodEmptyState";
 import MoodSelectorComponent from "@/components/MoodSelector/MoodSelectorComponent";
-import CardComponent from "@/components/Card/Card";
 import { Reaction } from "@/utils/enums/Reaction";
 import { reactionDescriptions, reactionImages } from "@/utils/constants/reactionsMapping";
 
