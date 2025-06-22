@@ -7,6 +7,7 @@ import { Mood } from '@/interfaces/Mood';
 import { formatBrazilianDate } from '@/utils/dateUtils';
 import { Reaction } from '@/utils/enums/Reaction';
 import { reactionImages, reactionDescriptions } from '@/utils/constants/reactionsMapping';
+import CardComponent from '../Card/Card';
 
 interface MoodChartProps {
   data: Mood[]; 
@@ -16,6 +17,8 @@ export default function MoodChart({ data }: MoodChartProps) {
   const [period, setPeriod] = useState('7');
   
   const filteredData = data.slice(-Number(period));
+
+  const hasEnoughData = filteredData.length >= Number(period);
 
   return (
     <div className="w-full">
