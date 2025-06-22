@@ -16,7 +16,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Checkbox } from "@/components/ui/checkbox"
 import { useMemo, useState } from "react"
 import { Mood } from "@/interfaces/Mood"
 import { Goal } from "@/interfaces/Goal"
@@ -114,18 +113,6 @@ const GridComponent = ({ data, type, user, onDelete, onSuccess }: GridComponentP
     const columns = useMemo<ColumnDef<Mood | Goal>[]>(() => {
         if (type === 'Mood') {
             return [
-                {
-                    id: "select",
-                    cell: ({ row }) => (
-                    <Checkbox
-                        checked={row.getIsSelected()}
-                        onCheckedChange={(value) => row.toggleSelected(!!value)}
-                        aria-label="Selecionar linha"
-                    />
-                    ),
-                    enableSorting: false,
-                    enableHiding: false,
-                },
                {
                     accessorKey: "mood",
                     header: "Reação",
@@ -175,19 +162,6 @@ const GridComponent = ({ data, type, user, onDelete, onSuccess }: GridComponentP
             ]
         } else {
             return [
-                {
-                    id: "select",
-                    cell: ({ row }) => (
-                        <Checkbox 
-                            checked={row.getIsSelected()}
-                            onCheckedChange={(value) => row.toggleSelected(!!value)}
-                            aria-label="Selecionar linha"
-                        />
-                    ),
-                    enableSorting: false,
-                    enableHiding: false,
-                    size: 60 // Tamanho fixo para o checkbox
-                },
                 {
                     accessorKey: "title",
                     header: "Título",
