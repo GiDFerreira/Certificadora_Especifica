@@ -30,6 +30,7 @@ import { User } from "@firebase/auth"
 import ConfirmAlertComponent from "../ConfirmAlert/ConfirmAlert"
 import { moodService } from "@/services/moodService"
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "../ui/pagination"
+import { goalsService } from "@/services/goalsService"
 
 interface GridComponentProps {
     data: Mood[] | Goal[]
@@ -47,22 +48,37 @@ const GridComponent = ({ data, type, user, onDelete, onSuccess }: GridComponentP
     const [selectedMood, setSelectedMood] = useState<Mood | null>(null);
     const [selectedGoal, setSelectedGoal] = useState<Goal | null>(null);
     const [itemToDelete, setItemToDelete] = useState<Mood | Goal | null>(null);
-
+    const [goalToCheck, setGoalToCheck] = useState<Goal | null>(null);
 
     const handleDelete = async () => {
         if (!itemToDelete) return;
 
         try {
-            if(type == "Mood")
+            if(type === "Mood"){
                 await moodService.deleteMood(itemToDelete.id);
-            onDelete?.(itemToDelete.id);
-
+                onDelete?.(itemToDelete.id);
+            }
+            if(type === "Goal") {
+                await goalsService.deleteGoal(itemToDelete.id);
+                onDelete?.(itemToDelete.id);
+            }
         } catch (error) {
-            console.error("Erro ao excluir mood:", error);
+            console.error("Erro ao excluir mood");
         } finally {
             setSelectedMood(null); 
         }
     };
+
+    const handleCheckGoal = async () => {
+        if (!goalToCheck) return;
+
+        try {
+            await goalsService.checkGoal(goalToCheck.id);
+            onSuccess();
+        } catch(e) {
+            console.error("Erro ao concluir meta");
+        }
+    }
 
     const moodActions = (mood: Mood): Action[] => [
         {
@@ -88,7 +104,9 @@ const GridComponent = ({ data, type, user, onDelete, onSuccess }: GridComponentP
         {
             title: "Marcar como concluída",
             icon: <FileCheck size={16} color="black" />,
-            onClick: () => console.log('Arquivar goal', goal.id)
+            onClick: () => {
+                setGoalToCheck(goal);
+            }
         },
         {
             title: "Editar",
@@ -211,7 +229,7 @@ const GridComponent = ({ data, type, user, onDelete, onSuccess }: GridComponentP
         getFilteredRowModel: getFilteredRowModel(),
         initialState: {
             pagination: {
-                pageSize: 4
+                pageSize: type === 'Mood' ? 4 : 8
             }
         },
         state: {
@@ -393,6 +411,12 @@ const GridComponent = ({ data, type, user, onDelete, onSuccess }: GridComponentP
                 />
                 )
             }
+            {goalToCheck && (
+                <ConfirmAlertComponent
+                    onConfirm={handleCheckGoal}
+                    onClose={() => setGoalToCheck(null)}
+                />
+            )}
         </div>
     )
 }

@@ -24,13 +24,13 @@ const CompletedGoalsComponent = ({ goals, onClose }: CompletedGoalsComponent) =>
                 <div className="absolute top-2 right-2" onClick={onClose}>
                     <X size={18} />
                 </div>
-                {goals ?
+                {goals.length !== 0 ?
                     <h1 className="text-[18px] font-semibold mb-1">As metas que você já concluiu</h1>
                     :
                     <h1 className="text-[18px] font-semibold mb-1">Você ainda não concluiu nenhuma meta</h1>
                 }
                 {
-                    goals ?
+                    goals.length !== 0 ?
                     <div className="text-[14px] text-[var(--gray)]">
                         <p>Você já concluiu <span className="text-[var(--darker-pink)]">{goals.length} metas</span> até aqui.</p>
                         <p>Cada uma delas é parte da sua história - pequenos passos que mostram o quanto você tem se cuidado.</p>
@@ -51,7 +51,7 @@ const CompletedGoalsComponent = ({ goals, onClose }: CompletedGoalsComponent) =>
                                 <p className="text-left">{trunkText(goal.title)}</p>
                             </Tooltip>
                         </div>
-                        <p className="text-end text-[11px] text-[var(--black)]">Concluída em: {formatBrazilianDate(goal.completedDate ? goal.completedDate : '')}</p>
+                        <p className="text-end text-[11px] text-[var(--black)]">Concluída em: {formatBrazilianDate(goal.updatedAt ? (typeof goal.updatedAt === 'string' ? goal.updatedAt : goal.updatedAt.toISOString()) : '')}</p>
                     </div>
                 ))}
             </div>

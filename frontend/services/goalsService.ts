@@ -8,6 +8,12 @@ export const goalsService = {
         return response.data;
     },
 
+    checkGoal: async (id: string): Promise<void> => {
+        await axiosService.patch(`/api/goals/${id}`, {
+            completed: true,
+        });
+    },
+
     deleteGoal: async (id: string): Promise<void> => {
         await axiosService.delete(`/api/goals/${id}`);
     }
