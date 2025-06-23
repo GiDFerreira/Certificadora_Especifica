@@ -8,6 +8,11 @@ export const moodService = {
         return response.data;
     },
 
+    getTodayMood: async (): Promise<Mood | null> => {
+        const response = await axiosService.get<Mood | null>("/api/moods/today");
+        return response.data;
+    },
+
     deleteMood: async (id: string): Promise<void> => {
         await axiosService.delete(`/api/moods/${id}`);
     }
