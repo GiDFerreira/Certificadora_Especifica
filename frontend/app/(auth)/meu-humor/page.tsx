@@ -13,15 +13,14 @@ import Buttonsheet from "@/components/Buttonsheet/Buttonsheet";
 import MyBot from "@/components/Chatbot/Chatbot";
 import MoodEmptyStateComponent from "@/components/MoodEmptyState/MoodEmptyState";
 import MoodSelectorComponent from "@/components/MoodSelector/MoodSelectorComponent";
-import CardComponent from "@/components/Card/Card";
 import { Reaction } from "@/utils/enums/Reaction";
 import { reactionDescriptions, reactionImages } from "@/utils/constants/reactionsMapping";
+import MoodChartEmptyState from "@/components/MoodChartEmpty/MoodChartEmpty";
 
 
 
 export default function MeuHumor() {
   const [moods, setMoods] = useState<Mood[]>([]);
-  const [lastMood, setLastMood] = useState<Mood | null>(null);
   const [todayMood, setTodayMood] = useState<string | null>(null);
   const [refreshKey, setRefreshKey] = useState<number>(0);
   const [createDialog, setCreateDialog] = useState<boolean>(false);
@@ -64,7 +63,6 @@ export default function MeuHumor() {
       : [];
 
   const handleMoodCreated = (newMood: Mood) => {
-    setLastMood(newMood);
     setTodayMood(reactionDescriptions[newMood.mood as Reaction]);
     setRefreshKey((prev) => prev + 1);
   };
@@ -90,40 +88,45 @@ export default function MeuHumor() {
                   onMoodSelect={() => setCreateDialog(true)}
               />
           </div>
-          
           {moods.length === 0 ? (
-          <div className="mt-12">
-              <MoodEmptyStateComponent onRegisterClick={() =>
-              setCreateDialog(true)} />
-          </div>
-          ) : (
-            <>
-              <div className="my-12">
-                  <Grid 
-                    data={[...moods].sort((a, b) =>
-                  new Date(b.createdAt ?? 0).getTime() - new Date(a.createdAt ?? 0).getTime())}
-                  type="Mood" 
-                  user={userAuth} 
-                  onDelete={handleDeleteMood} 
-                  onSuccess={() => setRefreshKey(prev => prev + 1)} 
-                  />
+              <div className="mt-12">
+                <MoodEmptyStateComponent onRegisterClick={() => setCreateDialog(true)} />
               </div>
-                <MoodChart data={lastMoods} />
-            </>
-          )}
-          {createDialog && (
-          <Buttonsheet
-            open={createDialog}
-            onOpenChange={setCreateDialog}
-            model="Mood"
-            action="Create"
-            user={userAuth}
-            onSuccess={() =>
-            setRefreshKey(prev => prev + 1)}
-            onMoodCreated={handleMoodCreated}
-          />
-          )}
-          <MyBot />
+              ) : (
+                <>
+                  <div className="my-12">
+                    <Grid 
+                      data={[...moods].sort((a, b) =>
+                        new Date(b.createdAt ?? 0).getTime() - new Date(a.createdAt ?? 0).getTime()
+                      )}
+                      type="Mood" 
+                      user={userAuth} 
+                      onDelete={handleDeleteMood} 
+                      onSuccess={() => setRefreshKey(prev => prev + 1)} 
+                    />
+                  </div>
+
+                    {moods.length < 7 ? (
+                      <MoodChartEmptyState />
+                    ) : (
+                      <MoodChart data={lastMoods} />
+                    )}
+                </>
+            )}
+
+            {createDialog && (
+            <Buttonsheet
+              open={createDialog}
+              onOpenChange={setCreateDialog}
+              model="Mood"
+              action="Create"
+              user={userAuth}
+              onSuccess={() =>
+              setRefreshKey(prev => prev + 1)}
+              onMoodCreated={handleMoodCreated}
+            />
+            )}
+            <MyBot />
         </div>
       )}
     </>
