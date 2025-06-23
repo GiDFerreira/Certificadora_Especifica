@@ -43,6 +43,10 @@ export default function MinhasMetas() {
     setRefreshKey(prev => prev + 1);
   };
 
+  const handleDeleteGoal = (id: string) => {
+    setGoals(prev => prev.filter(goal => goal.id !== id));
+  };
+
   return (
     <>
     {userAuth && (
@@ -84,14 +88,12 @@ export default function MinhasMetas() {
         ) : (
           <>
           {completedGoals && (
-          <CompletedGoals
-            goals={goals}
-            onClose={() => setCompletedGoals(false)}
-          />
+            <CompletedGoals
+              goals={goals.filter(goal => goal.completed)}
+              onClose={() => setCompletedGoals(false)}
+            />
           )}
-          <div className="overflow-x-auto rounded-md border border-gray-200">
-            <GridComponent data={goals} type="Goal" user={userAuth} onSuccess={() => setRefreshKey(prev => prev + 1)}/>
-          </div>
+          <GridComponent data={goals.filter(goal => !goal.completed)} type="Goal" user={userAuth} onSuccess={() => setRefreshKey(prev => prev + 1)} onDelete={handleDeleteGoal}/>
         </>
       )}
       </div>
