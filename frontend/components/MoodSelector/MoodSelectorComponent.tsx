@@ -23,7 +23,7 @@ const defaultMoods: MoodOption[] = [
   { label: "Mais ou menos", image: "/maisoumenos.svg", alt: "maisoumenos" },
   { label: "Indiferente", image: "/indiferente.svg", alt: "indiferente" },
   { label: "Triste", image: "/triste.svg", alt: "triste" },
-  { label: "Bravo", image: "/bravo.svg", alt: "bravo" },
+  { label: "Frustante", image: "/bravo.svg", alt: "bravo" },
 ];
 
 

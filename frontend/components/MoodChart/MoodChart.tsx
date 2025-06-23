@@ -7,7 +7,6 @@ import { Mood } from '@/interfaces/Mood';
 import { formatBrazilianDate } from '@/utils/dateUtils';
 import { Reaction } from '@/utils/enums/Reaction';
 import { reactionImages, reactionDescriptions } from '@/utils/constants/reactionsMapping';
-import CardComponent from '../Card/Card';
 
 interface MoodChartProps {
   data: Mood[]; 
