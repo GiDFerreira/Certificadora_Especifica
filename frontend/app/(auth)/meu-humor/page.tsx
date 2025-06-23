@@ -35,10 +35,12 @@ export default function MeuHumor() {
     setMoods(prev => prev.filter(mood => mood.id !== id));
   };
 
+
   useEffect(() => {
     const fetchMoods = async () => {
       try {
         const moodsFromBackend = await moodService.getMoods();
+        const todayMoodFromBackend = await moodService.getTodayMood();
 
         const moodsWithSelected: Mood[] = moodsFromBackend.map((mood) => ({
           ...mood,
@@ -46,6 +48,13 @@ export default function MeuHumor() {
         }));
 
         setMoods(moodsWithSelected);
+
+        if (todayMoodFromBackend) {
+          setTodayMood(reactionDescriptions[todayMoodFromBackend.mood as Reaction]);
+        } else {
+          setTodayMood(null);
+        }
+        
       } catch (err) {
         console.error("Erro ao buscar moods:", err);
       }

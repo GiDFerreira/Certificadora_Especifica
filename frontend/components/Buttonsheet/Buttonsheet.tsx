@@ -4,7 +4,7 @@ import DatePicker from "../DatePicker/DatePicker"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog"
 import { Label } from "../ui/label"
 import Select from "../Select/Select"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import axiosService from "@/services/AxiosService"
 import { User as FirebaseUser } from "@firebase/auth"
 import { Goal } from "@/interfaces/Goal"
@@ -161,6 +161,16 @@ const ButtonsheetComponent = ({ open, onOpenChange, action, model, user, goal, m
         }
         onOpenChange(isOpen);
     };
+
+    useEffect(() => {
+    if (mood) {
+        setToEditMood(mood.mood);
+        setToEditNote(mood.note);
+    } else {
+        setToEditMood(undefined);
+        setToEditNote(undefined);
+    }
+    }, [mood]);
 
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
