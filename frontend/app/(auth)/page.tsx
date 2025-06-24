@@ -149,18 +149,21 @@ export default function Home() {
                 goals.map((goal) => ( 
                   <>
                     <p className="font-bold">Não deixe seu bem estar para depois! Cuide de suas metas:</p>
-                    <CardComponent className="flex w-full items-center justify-between rounded-md bg-green-100 p-4 shadow-sm" onClick={() => router.push("/minhas-metas")}>
-                        <ArrowRight className="mr-3 text-darker-gray" />
-                        <div>
-                          <div className="flex items-center gap-4">
-                            <span className="text-xl">→</span>
+                    <div className="flex gap-2">
+                      <ArrowRight className="text-darker-gray mt-8" />
+                      <CardComponent className="flex w-full rounded-md bg-green-100 px-4 py-8 shadow-sm">
+                        <div className="flex justify-between">
+                          <div className="items-start justify-starts">
                             <span className="font-medium">{goal.title}</span>
                           </div>
-                          <span className="text-darker-pink text-sm font-semibold">
-                            {new Date(goal.deadline).toLocaleDateString()}
-                          </span>
+                          <div className="items-end justify-end">
+                            <span className="text-darker-pink text-sm font-semibold">
+                              {new Date(goal.deadline).toLocaleDateString()}
+                            </span>
+                          </div>
                         </div>
-                    </CardComponent>
+                      </CardComponent>
+                    </div>
                   </>
                 ))
               )}

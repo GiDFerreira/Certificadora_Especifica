@@ -9,7 +9,7 @@ import axiosService from "@/services/AxiosService"
 import { User as FirebaseUser } from "@firebase/auth"
 import { Goal } from "@/interfaces/Goal"
 import { Mood } from "@/interfaces/Mood"
-import ConfirmAlert from "../ConfirmAlert/ConfirmAlert"
+import { MoodInitialData } from "@/interfaces/MoodInitialData"
 import { Reaction } from "@/utils/enums/Reaction"
 
 interface ButtonsheetComponentProps {
@@ -22,9 +22,10 @@ interface ButtonsheetComponentProps {
     mood?: Mood
     onSuccess?: () => void
     onMoodCreated?: (newMood: Mood) => void
+    initialMood?: MoodInitialData
 }
 
-const ButtonsheetComponent = ({ open, onOpenChange, action, model, user, goal, mood, onSuccess, onMoodCreated }: ButtonsheetComponentProps) => {
+const ButtonsheetComponent = ({ open, onOpenChange, action, model, user, goal, mood, onSuccess, onMoodCreated, initialMood }: ButtonsheetComponentProps) => {
     const [newMood, setNewMood] = useState<number | null>(null);
     const [newNote, setNewNote] = useState<string>("");
     const [newTitle, setNewTitle] = useState<string>("");
@@ -166,11 +167,18 @@ const ButtonsheetComponent = ({ open, onOpenChange, action, model, user, goal, m
     if (mood) {
         setToEditMood(mood.mood);
         setToEditNote(mood.note);
-    } else {
+    }else {
         setToEditMood(undefined);
         setToEditNote(undefined);
     }
     }, [mood]);
+
+    useEffect(() => {
+        if (open && action === "Create" && model === "Mood" && initialMood) {
+            setNewMood(initialMood.mood);
+            setNewNote(initialMood.note);
+        }
+    }, [open, action, model, initialMood]);
 
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -231,7 +239,7 @@ const ButtonsheetComponent = ({ open, onOpenChange, action, model, user, goal, m
                                     <>
                                         <div className="flex flex-col gap-2">
                                             <Label>Humor escolhido:</Label>
-                                            <Select placeholder="Escolha seu humor" items={selectMoods} onChange={(value) => { setMoodError(""); setNewMood(Number(value)) }} className={moodError ? "border-red-700" : ""} />
+                                            <Select placeholder="Escolha seu humor" items={selectMoods} value={newMood} onChange={(value) => { setMoodError(""); setNewMood(Number(value)) }} className={moodError ? "border-red-700" : ""} />
                                             {moodError && <p className="text-red-700 text-[12px]">{moodError}</p>}
                                         </div>
                                         <div>
