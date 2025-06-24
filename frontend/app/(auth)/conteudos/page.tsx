@@ -10,6 +10,7 @@ import AgenlinaPsi from "@/public/angelinipsi.jpg";
 import BiancaPsi from "@/public/biancamayumi.jpg";
 import IzabellaPsi from "@/public/izabellacamargo.jpg";
 import DrauzioLogo from "@/public/drauzio.jpg";
+import MyBot from "@/components/Chatbot/Chatbot";
 
 
 
@@ -89,6 +90,7 @@ export default function Conteudos() {
             </section>
           </div>
         </div>
+        <MyBot></MyBot>
       </div>
       )}
     </>

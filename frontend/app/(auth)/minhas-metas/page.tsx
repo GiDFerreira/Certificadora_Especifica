@@ -11,6 +11,7 @@ import { Goal } from "@/interfaces/Goal";
 import { useAuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { goalsService } from "@/services/goalsService";
+import MyBot from "@/components/Chatbot/Chatbot";
 
 export default function MinhasMetas() {
   const [completedGoals, setCompletedGoals] = useState(false);
@@ -31,7 +32,7 @@ export default function MinhasMetas() {
 
         setGoals(goalsFromBackend);
       } catch (err) {
-        console.error("Erro ao buscar goals:", err);
+        console.error("Erro:", err);
       }
     };
     fetchGoals();
@@ -58,13 +59,11 @@ export default function MinhasMetas() {
   return (
     <>
     {userAuth && (
-      <div className="p-12">
-        <div className="w-full">        
-          <div className="flex justify-between items-center">
-              <h1 className="font-bold text-3xl">Minhas Metas</h1>
-              <div className="flex items-center gap-2">
-                <LoggedUser userName={"Gato"} userEmail={"gato@mail.com"} image={""}/>
-              </div>
+      <div className="w-full p-4 md:p-12">       
+        <div className="flex justify-between items-center">
+          <h1 className="font-bold text-xl text-center md:text-left md:text-3xl w-full"> Minhas Metas </h1>
+          <div className="flex items-center gap-2">
+            <LoggedUser userName={userAuth.displayName ?? ""} userEmail={userAuth.email ?? ""} image={""}/>
           </div>
               <div className="flex flex-col my-10 w-full mb-2">
                   <InputComponent
@@ -76,33 +75,26 @@ export default function MinhasMetas() {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   />
               </div>
-                <div className="flex justify-between items-center w-full max-w-[1000px] mb-12">
-                  <ButtonComponent className="cursor-pointer" onClick={() => setOpenModal(true)}>
-                    + CADASTRAR
-                  </ButtonComponent>
-                  <ButtonsheetComponent open={openModal} onOpenChange={setOpenModal} action="Create" model="Goal" onSuccess={handleSave} user={userAuth}/>
-                  <ButtonComponent
-                    className="bg-[var(--darker-pink)]/70 rounded text-sm cursor-pointer"
-                    onClick={() => setCompletedGoals(true)}
-                  >
-                    <img src="/checklist.svg" alt="checklist" />
-                  </ButtonComponent>
-                </div>
-        </div>
+          <div className="flex justify-between items-center w-full mb-12">
+            <ButtonComponent className="cursor-pointer" onClick={() => setOpenModal(true)}>
+              + CADASTRAR
+            </ButtonComponent>
+            <ButtonsheetComponent open={openModal} onOpenChange={setOpenModal} action="Create" model="Goal" onSuccess={handleSave} user={userAuth}/>
+            <ButtonComponent
+              className="bg-[var(--darker-pink)]/70 rounded text-sm cursor-pointer"
+              onClick={() => setCompletedGoals(true)}
+            >
+              <img src="/checklist.svg" alt="checklist" />
+            </ButtonComponent>
+          </div>
 
         {goals.length === 0 ? (
           <div className="flex flex-col items-center justify-center rounded-xl p-8 shadow-sm h-[536.87px]" style={{ backgroundColor: "var(--blue)" }}>
-          <p className="items-center">Você ainda não tem metas cadastradas. Cadastre sua primeira meta para conseguir acompanhá-la.</p>
-          <img src="/MulherAmpulheta-Photoroom.png" alt="Mulher ampulheta" width={246} height={246} />
+            <p className="items-center">Você ainda não tem metas cadastradas. Cadastre sua primeira meta para conseguir acompanhá-la.</p>
+            <img src="/MulherAmpulheta-Photoroom.png" alt="Mulher ampulheta" width={246} height={246} />
         </div>
         ) : (
           <>
-          {completedGoals && (
-            <CompletedGoals
-              goals={goals.filter(goal => goal.completed)}
-              onClose={() => setCompletedGoals(false)}
-            />
-          )}
           <GridComponent 
             data={goals
                 .filter(goal => !goal.completed)
@@ -114,6 +106,8 @@ export default function MinhasMetas() {
               onDelete={handleDeleteGoal}/>
         </>
       )}
+
+        <MyBot></MyBot>
       </div>
     )}
     </>
