@@ -63,7 +63,7 @@ const GridComponent = ({ data, type, user, onDelete, onSuccess }: GridComponentP
                 onDelete?.(itemToDelete.id);
             }
         } catch (error) {
-            console.error("Erro ao excluir mood");
+            console.error("Erro: ", error);
         } finally {
             setSelectedMood(null); 
         }
@@ -76,7 +76,7 @@ const GridComponent = ({ data, type, user, onDelete, onSuccess }: GridComponentP
             await goalsService.checkGoal(goalToCheck.id);
             onSuccess();
         } catch(e) {
-            console.error("Erro ao concluir meta");
+            console.error("Erro: ", e);
         }
     }
 

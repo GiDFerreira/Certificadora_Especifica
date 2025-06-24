@@ -62,7 +62,7 @@ const ButtonsheetComponent = ({ open, onOpenChange, action, model, user, goal, m
                 onOpenChange(false);
             }
         }catch(error){
-            console.error("Erro ao criar meta");
+            console.error("Erro:", error);
         }
     }
 
@@ -88,7 +88,7 @@ const ButtonsheetComponent = ({ open, onOpenChange, action, model, user, goal, m
                 onOpenChange(false);
             }
         }catch(error){
-            console.error("Erro ao criar reação");
+            console.error("Erro: ", error);
         }
     }
 
@@ -112,7 +112,7 @@ const ButtonsheetComponent = ({ open, onOpenChange, action, model, user, goal, m
                 onOpenChange(false);
             }
         } catch (error) {
-            console.error("Erro ao criar meta");
+            console.error("Erro: ", error);
         }
     }
 
@@ -136,7 +136,7 @@ const ButtonsheetComponent = ({ open, onOpenChange, action, model, user, goal, m
                 onOpenChange(false);
             }
         } catch (error) {
-            console.error("Erro ao criar meta");
+            console.error("Erro: ", error);
         }
     }
 
@@ -206,7 +206,7 @@ const ButtonsheetComponent = ({ open, onOpenChange, action, model, user, goal, m
                                         </div>
                                         <div className="flex flex-col gap-2">
                                             <Label>Data de conclusão:</Label>
-                                            <DatePicker selected={newDeadline} onSelect={(date) => { setDeadlineError(""); setNewDeadline(date) }} className={deadlineError ? "border-red-700" : ""} />
+                                            <DatePicker selected={newDeadline} fromDate={new Date()} onSelect={(date) => { setDeadlineError(""); setNewDeadline(date) }} className={deadlineError ? "border-red-700" : ""} />
                                             {deadlineError && <p className="text-red-700 text-[12px]">{deadlineError}</p>}
                                         </div>
                                     </>

@@ -12,6 +12,7 @@ import { goalsService } from "@/services/goalsService";
 import { Goal } from "@/interfaces/Goal";
 import { Mood } from "@/interfaces/Mood";
 import { moodService } from "@/services/moodService";
+import MyBot from "@/components/Chatbot/Chatbot";
 
 
 
@@ -34,7 +35,7 @@ export default function Home() {
         const goalsFromBackend = await goalsService.getGoals();
         setGoals(goalsFromBackend.slice(0, 3));
       } catch (err) {
-        console.error("Erro ao buscar goals:", err);
+        console.error("Erro:", err);
       }
     };
      fetchGoals();
@@ -45,13 +46,13 @@ export default function Home() {
       if (!userAuth) return;
       try {
         const moodFromBackend: Mood[] = await moodService.getMoods();
-        if (moodFromBackend && moodFromBackend.length - 1) {
+        if (moodFromBackend && moodFromBackend.length > 0) {
           setLastMood(moodFromBackend[moodFromBackend.length - 1]);
         } else {
           setLastMood(null);
         }
       } catch (error){
-        console.error("Erro ao buscar o mood do dia:", error);
+        console.error("Erro:", error);
         setLastMood(null);
       }
     };
@@ -79,7 +80,7 @@ export default function Home() {
                   </div>
                   <CardComponent className="w-full py-6 px-6 ml-7 flex flex-col items-center text-center justify-between gap-4">
                     <p>Você ainda não registrou seu humor hoje. Que tal tirar um momento para você?</p>
-                    <ButtonComponent className="font-bold cursor-pointer">REGISTRAR</ButtonComponent>
+                    <ButtonComponent className="font-bold cursor-pointer" onClick={() => router.push("/meu-humor")}>REGISTRAR</ButtonComponent>
                   </CardComponent>    
                 </div>
               </CardComponent>
@@ -107,7 +108,7 @@ export default function Home() {
                         Acompanhe sua jornada emocional e veja como você tem se
                         sentido ao longo do tempo.
                       </p>
-                      <ButtonComponent className="font-bold cursor-pointer">
+                      <ButtonComponent className="font-bold cursor-pointer" onClick={() => router.push("/meu-humor")}>
                         ACOMPANHAR
                       </ButtonComponent>
                     </CardComponent>
@@ -128,7 +129,7 @@ export default function Home() {
                         Cadastre sua primeira meta para conseguir acompanhá-la.
                       </p>
                       <div>
-                        <ButtonComponent className="bg-[var(--darker-green)] hover:bg-[var(--green)] text-white cursor-pointer">
+                        <ButtonComponent className="bg-[var(--darker-green)] hover:bg-[var(--green)] text-white cursor-pointer" onClick={() => router.push("/minhas-metas")}>
                           CADASTRAR
                         </ButtonComponent>
                       </div>
@@ -148,7 +149,7 @@ export default function Home() {
                 goals.map((goal) => ( 
                   <>
                     <p className="font-bold">Não deixe seu bem estar para depois! Cuide de suas metas:</p>
-                    <CardComponent className="flex w-full items-center justify-between rounded-md bg-green-100 p-4 shadow-sm">
+                    <CardComponent className="flex w-full items-center justify-between rounded-md bg-green-100 p-4 shadow-sm" onClick={() => router.push("/minhas-metas")}>
                         <ArrowRight className="mr-3 text-darker-gray" />
                         <div>
                           <div className="flex items-center gap-4">
@@ -165,6 +166,8 @@ export default function Home() {
               )}
             </div>
           </div>
+
+          <MyBot></MyBot>
         </div>
       )}
     </>
