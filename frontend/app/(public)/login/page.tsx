@@ -93,7 +93,7 @@ export default function Login() {
             await loginWithGoogle();
             router.push("/");
         } catch (error: any) {
-            console.error("Erro ao fazer login com o Google:", error);
+            console.error("Erro:", error);
         }
     }
 
