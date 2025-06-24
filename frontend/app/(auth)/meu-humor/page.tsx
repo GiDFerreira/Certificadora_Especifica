@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Grid from "@/components/Grid/Grid";
 import { Mood } from "@/interfaces/Mood";
+import { MoodInitialData } from "@/interfaces/MoodInitialData";
 import { moodService } from "@/services/moodService";
 import { useEffect } from "react";
 import MoodChart from "@/components/MoodChart/MoodChart";
@@ -17,6 +18,23 @@ import { Reaction } from "@/utils/enums/Reaction";
 import { reactionDescriptions, reactionImages } from "@/utils/constants/reactionsMapping";
 import MoodChartEmptyState from "@/components/MoodChartEmpty/MoodChartEmpty";
 
+const mapLabelToEnum = (label: string): number => {
+  switch (label) {
+    case "Feliz":
+      return Reaction.Feliz;
+    case "Mais ou menos":
+      return Reaction.MaisOuMenos;
+    case "Indiferente":
+      return Reaction.Indiferente;
+    case "Triste":
+      return Reaction.Triste;
+    case "Frustante":
+    case "Frustrado":    // Caso você use variações
+      return Reaction.Frustrante;
+    default:
+      return Reaction.Indiferente; // Um fallback seguro
+  }
+};
 
 
 export default function MeuHumor() {
@@ -24,6 +42,7 @@ export default function MeuHumor() {
   const [todayMood, setTodayMood] = useState<string | null>(null);
   const [refreshKey, setRefreshKey] = useState<number>(0);
   const [createDialog, setCreateDialog] = useState<boolean>(false);
+  const [selectedMood, setSelectedMood] = useState<number | null>(null);
   const { userAuth } = useAuthContext();
   const router = useRouter();
 
@@ -93,8 +112,12 @@ export default function MeuHumor() {
                 </span>
               </div>
               <MoodSelectorComponent
-                  selectedMoodFromParent={todayMood}
-                  onMoodSelect={() => setCreateDialog(true)}
+                  onMoodSelect={(moodLabel) => {
+                  const moodEnum = mapLabelToEnum(moodLabel);
+                  setSelectedMood(moodEnum);
+                  setCreateDialog(true);
+                }}
+                selectedMoodFromParent={null}
               />
           </div>
           {moods.length === 0 ? (
@@ -130,6 +153,7 @@ export default function MeuHumor() {
               model="Mood"
               action="Create"
               user={userAuth}
+              initialMood={selectedMood !== null ? {mood: selectedMood, note: ""} : undefined}
               onSuccess={() =>
               setRefreshKey(prev => prev + 1)}
               onMoodCreated={handleMoodCreated}

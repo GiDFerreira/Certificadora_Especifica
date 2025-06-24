@@ -17,7 +17,7 @@ interface ItemProps {
 interface SelectComponentProps {
     placeholder: string
     items: ItemProps[]
-    value?: string | number
+    value?: string | number | null
     onChange?: (value:string) => void
     className?: string
 }

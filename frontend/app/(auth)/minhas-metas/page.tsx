@@ -15,6 +15,7 @@ import { goalsService } from "@/services/goalsService";
 export default function MinhasMetas() {
   const [completedGoals, setCompletedGoals] = useState(false);
   const [goals, setGoals] = useState<Goal[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [refreshKey, setRefreshKey] = useState<number>(0);
   const { userAuth } = useAuthContext();
   const router = useRouter();
@@ -47,6 +48,13 @@ export default function MinhasMetas() {
     setGoals(prev => prev.filter(goal => goal.id !== id));
   };
 
+  const filteredGoals = goals.filter((goal) => {
+    const titleText = goal.title?.toLowerCase() ?? "";
+    const search = searchTerm.toLowerCase();
+
+    return titleText.includes(search);
+  });
+
   return (
     <>
     {userAuth && (
@@ -64,6 +72,8 @@ export default function MinhasMetas() {
                   id="searchGoals"
                   type="search"
                   placeholder="Pesquisar por nome da meta"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                   />
               </div>
                 <div className="flex justify-between items-center w-full max-w-[1000px] mb-12">
@@ -93,7 +103,15 @@ export default function MinhasMetas() {
               onClose={() => setCompletedGoals(false)}
             />
           )}
-          <GridComponent data={goals.filter(goal => !goal.completed)} type="Goal" user={userAuth} onSuccess={() => setRefreshKey(prev => prev + 1)} onDelete={handleDeleteGoal}/>
+          <GridComponent 
+            data={goals
+                .filter(goal => !goal.completed)
+                .filter(goal => goal.title.toLowerCase().includes(searchTerm.toLowerCase()))
+              } 
+              type="Goal" 
+              user={userAuth} 
+              onSuccess={() => setRefreshKey(prev => prev + 1)} 
+              onDelete={handleDeleteGoal}/>
         </>
       )}
       </div>
