@@ -2,13 +2,13 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBR-stJOpZrI9iINxc5jjSiNO1lc5MfdNI",
-  authDomain: "bem-estar-app-eea83.firebaseapp.com",
-  projectId: "bem-estar-app-eea83",
-  storageBucket: "bem-estar-app-eea83.firebasestorage.app",
-  messagingSenderId: "371941531795",
-  appId: "1:371941531795:web:715db2121f9175706c6d66",
-  measurementId: "G-DNWZ607JH6"
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGE_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
+  measurementId: process.env.FIREBASE_MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);
