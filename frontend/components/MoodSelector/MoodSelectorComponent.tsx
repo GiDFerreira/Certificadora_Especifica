@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import CardComponent from "../Card/Card";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 interface MoodOption {
@@ -35,11 +35,18 @@ const MoodSelectorComponent = ({ moods = defaultMoods, onMoodSelect,selectedMood
     }
   };
   const [selectedMood, setSelectedMood] = useState<string | null>(null);
-  const finalSelectedMood = selectedMoodFromParent ?? selectedMood;
+  const finalSelectedMood = selectedMoodFromParent != undefined ? selectedMoodFromParent : selectedMood;
 
   const selectMoodDay = (moodLabel: string) => {
     setSelectedMood(moodLabel);  // Marca o selecionado
   };
+
+  //Setar null pra humor
+  useEffect(() => {
+    if (selectedMoodFromParent === null) {
+      setSelectedMood(null); 
+    }
+  }, [selectedMoodFromParent])
 
   return (
     <CardComponent className="bg-[var(--lighter-pink)] w-full flex justify-center">
@@ -86,3 +93,4 @@ const MoodSelectorComponent = ({ moods = defaultMoods, onMoodSelect,selectedMood
 };
 
 export default MoodSelectorComponent;
+

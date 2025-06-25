@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Grid from "@/components/Grid/Grid";
 import { Mood } from "@/interfaces/Mood";
-import { MoodInitialData } from "@/interfaces/MoodInitialData";
 import { moodService } from "@/services/moodService";
 import { useEffect } from "react";
 import MoodChart from "@/components/MoodChart/MoodChart";
@@ -17,6 +16,11 @@ import MoodSelectorComponent from "@/components/MoodSelector/MoodSelectorCompone
 import { Reaction } from "@/utils/enums/Reaction";
 import { reactionDescriptions, reactionImages } from "@/utils/constants/reactionsMapping";
 import MoodChartEmptyState from "@/components/MoodChartEmpty/MoodChartEmpty";
+
+const getLabelFromReactionEnum = (reaction: number | null): string | null => {
+  if (reaction === null) return null;
+  return reactionDescriptions[reaction as Reaction] ?? null;
+};
 
 const mapLabelToEnum = (label: string): number => {
   switch (label) {
@@ -36,7 +40,6 @@ const mapLabelToEnum = (label: string): number => {
   }
 };
 
-
 export default function MeuHumor() {
   const [moods, setMoods] = useState<Mood[]>([]);
   const [todayMood, setTodayMood] = useState<string | null>(null);
@@ -50,36 +53,49 @@ export default function MeuHumor() {
     router.push("/login");
   }
 
+  const handleDialogOpenChange = (isOpen: boolean) => {
+    setCreateDialog(isOpen);
+    if (!isOpen) {
+      setSelectedMood(null);
+    }
+  };
+
   const handleDeleteMood = (id: string) => {
     setMoods(prev => prev.filter(mood => mood.id !== id));
   };
 
 
   useEffect(() => {
-    const fetchMoods = async () => {
-      try {
-        const moodsFromBackend = await moodService.getMoods();
-        const todayMoodFromBackend = await moodService.getTodayMood();
+  const fetchMoods = async () => {
+    try {
+      const moodsFromBackend = await moodService.getMoods();
+      const moodsWithSelected: Mood[] = moodsFromBackend.map((mood) => ({
+        ...mood,
+        selected: false,
+      }));
+      setMoods(moodsWithSelected);
+    } catch (err) {
+      console.error("Erro:", err);
+    }
 
-        const moodsWithSelected: Mood[] = moodsFromBackend.map((mood) => ({
-          ...mood,
-          selected: false,
-        }));
-
-        setMoods(moodsWithSelected);
-
-        if (todayMoodFromBackend) {
-          setTodayMood(reactionDescriptions[todayMoodFromBackend.mood as Reaction]);
-        } else {
-          setTodayMood(null);
-        }
-        
-      } catch (err) {
-        console.error("Erro ao buscar moods:", err);
+    try {
+      const todayMoodFromBackend = await moodService.getTodayMood();
+      if (todayMoodFromBackend) {
+        setTodayMood(reactionDescriptions[todayMoodFromBackend.mood as Reaction]);
+        setSelectedMood(todayMoodFromBackend.mood);
+      } else {
+        setTodayMood(null);
+        setSelectedMood(null);
       }
-    };
-    fetchMoods();
-  }, [refreshKey]);
+    } catch (err) {
+      console.error("Erro:", err);
+      setTodayMood(null);
+      setSelectedMood(null);
+    }
+  };
+
+  fetchMoods();
+}, [refreshKey]);
 
   const lastMoods =
     moods.length >= 30
@@ -117,7 +133,7 @@ export default function MeuHumor() {
                   setSelectedMood(moodEnum);
                   setCreateDialog(true);
                 }}
-                selectedMoodFromParent={null}
+                selectedMoodFromParent={getLabelFromReactionEnum(selectedMood)}
               />
           </div>
           {moods.length === 0 ? (
@@ -149,7 +165,7 @@ export default function MeuHumor() {
             {createDialog && (
             <Buttonsheet
               open={createDialog}
-              onOpenChange={setCreateDialog}
+              onOpenChange={handleDialogOpenChange}
               model="Mood"
               action="Create"
               user={userAuth}
