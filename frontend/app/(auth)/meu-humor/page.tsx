@@ -29,10 +29,10 @@ const mapLabelToEnum = (label: string): number => {
     case "Triste":
       return Reaction.Triste;
     case "Frustante":
-    case "Frustrado":    // Caso você use variações
+    case "Frustrado":
       return Reaction.Frustrante;
     default:
-      return Reaction.Indiferente; // Um fallback seguro
+      return Reaction.Indiferente;
   }
 };
 

@@ -57,24 +57,24 @@ export default function MinhasMetas() {
   });
 
   return (
-    <>
-    {userAuth && (
+    userAuth && (
       <div className="w-full p-4 md:p-12">       
         <div className="flex justify-between items-center">
           <h1 className="font-bold text-xl text-center md:text-left md:text-3xl w-full"> Minhas Metas </h1>
           <div className="flex items-center gap-2">
             <LoggedUser userName={userAuth.displayName ?? ""} userEmail={userAuth.email ?? ""} image={""}/>
           </div>
-              <div className="flex flex-col my-10 w-full mb-2">
+          </div>
+            <div className="flex flex-col my-10 w-full mb-2">
                   <InputComponent
-                  className="w-full max-w-[1000px]"
+                  className="w-full"
                   id="searchGoals"
                   type="search"
                   placeholder="Pesquisar por nome da meta"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   />
-              </div>
+            </div>
           <div className="flex justify-between items-center w-full mb-12">
             <ButtonComponent className="cursor-pointer" onClick={() => setOpenModal(true)}>
               + CADASTRAR
@@ -104,13 +104,16 @@ export default function MinhasMetas() {
               user={userAuth} 
               onSuccess={() => setRefreshKey(prev => prev + 1)} 
               onDelete={handleDeleteGoal}/>
-        </>
-      )}
-
-        <MyBot></MyBot>
-      </div>
-    )}
-    </>
-    
+            <MyBot></MyBot>
+          </>
+        )}
+        {completedGoals && (
+            <CompletedGoals
+              goals={goals.filter(goal => goal.completed)}
+              onClose={() => setCompletedGoals(false)}
+            />
+          )}
+        </div>
+      )
   );
 }
