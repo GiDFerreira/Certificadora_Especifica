@@ -13,6 +13,7 @@ import { Goal } from "@/interfaces/Goal";
 import { Mood } from "@/interfaces/Mood";
 import { moodService } from "@/services/moodService";
 import MyBot from "@/components/Chatbot/Chatbot";
+import { reactionImages, reactionDescriptions } from "@/utils/constants/reactionsMapping";
 
 
 
@@ -21,7 +22,6 @@ export default function Home() {
   const { userAuth } = useAuthContext();
   const router = useRouter();
   const [goals, setGoals] = useState<Goal[]>([]);
-  const [moods, setMoods] = useState<Mood[]>([]);
   const [lastMood, setLastMood] = useState<Mood | null>(null);
 
   if (userAuth == null) {
@@ -45,12 +45,9 @@ export default function Home() {
     const fetchMood = async () => {
       if (!userAuth) return;
       try {
-        const moodFromBackend: Mood[] = await moodService.getMoods();
-        if (moodFromBackend && moodFromBackend.length > 0) {
-          setLastMood(moodFromBackend[moodFromBackend.length - 1]);
-        } else {
-          setLastMood(null);
-        }
+        const moodFromBackend: Mood | null = await moodService.getTodayMood();
+        setLastMood(moodFromBackend);
+
       } catch (error){
         console.error("Erro:", error);
         setLastMood(null);
@@ -95,13 +92,13 @@ export default function Home() {
                   <div className="flex gap-4 items-center">
                     <div className="text-center">
                       <Image
-                        src={`/${lastMood.mood}`}
+                         src={reactionImages[lastMood.mood as keyof typeof reactionImages]}
                         alt="emoji_escolhido"
                         width={100}
                         height={100}
                         className="hover:scale-110 hover:rotate-3 transition-all duration-300"
                       />
-                      <span>{lastMood.note}</span>
+                      <span>{reactionDescriptions[lastMood.mood as keyof typeof reactionDescriptions]}</span>
                     </div>
                     <CardComponent className="w-full py-6 flex flex-col items-center text-center justify-between gap-4">
                       <p>
@@ -146,17 +143,19 @@ export default function Home() {
                   </CardComponent>
               </div>
               ):(
-                goals.map((goal) => ( 
-                  <>
-                    <p className="font-bold">Não deixe seu bem estar para depois! Cuide de suas metas:</p>
-                    <div className="flex gap-2">
+                <>
+                  <p className="font-bold">
+                    Não deixe seu bem estar para depois! Cuide de suas metas:
+                  </p>
+                  {goals.map((goal) => (
+                    <div key={goal.id} className="flex gap-2">
                       <ArrowRight className="text-darker-gray mt-8" />
                       <CardComponent className="flex w-full rounded-md bg-green-100 px-4 py-8 shadow-sm">
-                        <div className="flex justify-between">
-                          <div className="items-start justify-starts">
+                        <div className="flex justify-between w-full">
+                          <div className="items-start">
                             <span className="font-medium">{goal.title}</span>
                           </div>
-                          <div className="items-end justify-end">
+                          <div className="items-end">
                             <span className="text-darker-pink text-sm font-semibold">
                               {new Date(goal.deadline).toLocaleDateString()}
                             </span>
@@ -164,8 +163,8 @@ export default function Home() {
                         </div>
                       </CardComponent>
                     </div>
-                  </>
-                ))
+                  ))}
+                </>
               )}
             </div>
           </div>
